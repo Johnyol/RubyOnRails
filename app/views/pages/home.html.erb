@@ -1,0 +1,117 @@
+<section>
+  <div class="contain-add-card">
+        <div class="button-add-card">
+            <div class="icon-plus">
+              <i class="fa-solid fa-plus"></i>
+            </div>
+            <button  onclick="mostrarFormulario()">Cadastrar Tarefa</button>
+        </div>
+  </div>
+
+  <div class="contain-grid-cards"> 
+      <div class="contain-acordion">
+          <button class="accordion" id="accordion"> 
+            <div class="contain-angle">  
+              <i class="fa-solid fa-angle-right" id="angle"> </i> 
+            </div>
+             <span>Nova Tarefa</span>
+         </button>
+      </div>
+
+
+      <div class="painel" id="painel">
+
+<%= form_with(model: Tarefa.new, url: tarefas_path, local: true, html: { class: "body-painel" }) do |form| %>
+
+           
+                    <div class="input-one">
+                     
+                            <%= form.label :nome, "Nome da Tarefa:" %>
+                              <%= form.text_field :nome, required: true %>
+                    </div>
+
+                    <div class="input-two"> 
+                        <div class="contain-itens">
+                            <span><%= form.label :data_inicio, "Início" %></span>
+                            <div class="input-calendar"> 
+                                  <%= form.date_field :date_inicio %>
+                            </div>
+                          
+                          
+                        </div>
+                        <div class="contain-itens">
+                            <span>
+                                <%= form.label :data_fim, "Conclusão" %>
+                            </span>
+                            <div class="input-calendar"> 
+                                <%= form.date_field :data_fim %>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="input-three">
+                        <div class="contain-select">
+                            <span><%= form.label :custo, "Custo estimado (R$)" %></span>
+                            <div class="icon-input">
+                                <i class="fa-solid fa-brazilian-real-sign"></i>
+                                  <%= form.number_field :custo, step: 0.01 %>
+                               
+                            </div> 
+                          
+                        </div>
+                        <div class="contain-select" >
+                            <span><%= form.label :status, "Status da Tarefa" %></span>
+                             <%= form.select :status, ["Concluído", "Pendente", "Em andamento"] %>
+                        </div>
+                    </div>
+
+                    <div class="contain-buttons">  
+                        <button class="span-back">
+                            <i class="fa-solid fa-rotate-left"></i>
+                             Voltar 
+                        </button>
+                     
+                        <div class="span-save"  >
+                            <i class="fa-solid fa-clipboard-list"></i>
+                            <%= form.submit "Salvar", class: "span-save" %>
+                        </div>
+                    </div>
+                 
+           
+                 <% end %>
+
+      </div>
+   
+        <div class="contain-tarefas">
+             <% @tarefas.each do |tarefa| %>
+              <div class="contain-acordion">
+                <button class="accordion" id="accordion"> 
+                  <div class="contain-angle">  
+                    <i class="fa-solid fa-angle-right" id="angle"> </i> 
+                  </div>
+                  <span><%= tarefa.nome %></span>
+                </button>
+              </div>
+             
+                  <div class="painel2">
+            
+                    <p>Início: <%= tarefa.date_inicio %></p>
+                    <p>Fim: <%= tarefa.data_fim %></p>
+                    <p>Custo: <%= tarefa.custo %></p>
+                    <p>Status: <%= tarefa.status %></p>
+
+                <% tarefa.comentarios.each do |comentario| %>
+                  <p>Comentário: <%= comentario.conteudo %></p>
+                <% end %>
+
+                    <!-- formulário para comentários relacionados -->
+                    <%= form_with(model: [tarefa, Comentario.new], local: true) do |form| %>
+                      <p><%= form.label :conteudo, "Comentário" %></p>
+                      <%= form.text_area :conteudo %>
+                      <%= form.submit "Comentar" %>
+                    <% end %>
+                  </div>
+                <% end %>
+          </div>
+
+</section>

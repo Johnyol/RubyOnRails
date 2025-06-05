@@ -1,0 +1,373 @@
+html > body {
+    background:  rgb(200, 218, 226);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+nav{
+    padding: 15px !important;
+    background: linear-gradient(to top,  rgb(8, 105, 216) , rgb(65, 134, 212));
+    border-bottom: 3px solid black;
+}
+
+nav .Icons-infos-caret {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+nav .Icons-infos-caret input{
+    outline: none !important;
+    border-top-right-radius: 0px !important;
+    border-end-end-radius: 0px !important;
+    height: 60px;
+}
+
+nav .Icons-infos-caret .contain-caret{
+    background-color:  rgb(8, 105, 216);
+    border-top-right-radius: 20px;
+    border-end-end-radius: 20px;
+    border: solid white 1px;
+
+}
+
+nav .Icons-infos-caret .contain-caret i{
+    font-size: 39px;
+    padding: 10px;
+}
+
+nav .Icons-infos-caret .contain-square i{
+     color: white;
+    font-size: 65px;
+    display: flex;
+    margin-right: 5px;
+}
+
+nav .logo{
+    width: 120px;
+}
+
+nav .navbar-head{
+    display: flex;
+}
+
+nav .navbar-head .contain-toggle {
+    display: flex;
+    justify-content:center ;
+    align-items: center;
+}
+
+nav .navbar-head .contain-toggle i{
+    color: white;
+    font-size: 60px;
+}
+
+nav .navbar-head .navbar-name{
+    color: white;
+    font-size: 35px;
+    width: 40px;
+    font-weight: 600;
+}
+
+nav .navbar-body{
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    gap: 30px;
+    padding: 5px;
+}
+
+.navbar-body .navbar-nick{
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+}
+.navbar-body .navbar-button{
+    background-color: rgb(207, 0, 0);
+    color: white;
+    font-weight: 600;
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 50px;
+}
+
+section{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+}
+
+section .contain-add-card{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding: 10px;
+}
+
+section .contain-add-card .button-add-card{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.contain-add-card .button-add-card button{
+    font-size: 20px;
+    font-weight: 550;
+    border: 1px solid rgba(0, 0, 0, 0.541);
+    padding: 15px;
+    background-color: white;
+    border-top-right-radius: 10px;
+    border-end-end-radius: 10px;
+}
+
+ .contain-add-card .button-add-card .icon-plus{
+  background-color:  rgb(8, 105, 216);
+  padding: 13px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.contain-add-card .button-add-card .icon-plus i{
+  color: white;
+  font-size: 35px;
+}
+
+.contain-grid-cards{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.contain-acordion .accordion{
+    background: linear-gradient(to top, rgba(175, 175, 175, 0.562) , rgb(255, 255, 255));
+    color:  #007bff;
+    cursor: pointer;
+    align-items: center;
+    width: 800px;
+    border: none;
+    text-align: left;
+    outline: none;
+    border-radius: 5px;
+    display: flex;
+    gap: 20px;
+    height: 60px;
+    font-size: 25px;
+    font-weight: 600;
+       
+  }
+
+  .accordion .contain-angle{
+     border-right: 1px solid rgb(170, 170, 170);
+     padding: 10px;
+  }
+  .contain-acordion .accordion i{
+    font-size: 25px; 
+    transition: all ease-in-out 0.20s;
+  }
+
+ .painel{
+    background-color: #cdc8c8;
+    padding: 1px;
+    display: none;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  
+}
+
+
+.painel .body-painel{
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    gap: 50px;
+    width: 780px;
+}
+
+.painel .body-painel .input-one{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+  
+.painel .body-painel .input-one input{
+    border: 1px solid rgba(159, 201, 255, 0.404);
+    background-color: rgba(159, 201, 255, 0.404);
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    color: rgb(97, 95, 95);
+}
+
+.painel .body-painel .input-one label{
+    color: #007bff;
+    font-weight: 700;
+}
+
+.painel .body-painel .input-two{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.painel .body-painel .input-two .contain-itens{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background-color: rgb(236, 235, 235);
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid rgb(206, 206, 206);
+}
+
+.painel .body-painel .input-two .contain-itens span{
+    font-family: 20px;
+    font-weight: 700;
+    color: #007bff;
+    border-bottom: 1px solid rgba(145, 145, 145, 0.425);
+    width: 100%;
+    text-align: center;
+}
+
+.painel .body-painel .input-two .contain-itens .input-calendar input {
+    border: 1px solid rgba(159, 201, 255, 0.404);
+    background-color: rgba(159, 201, 255, 0.404);
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    color: rgb(97, 95, 95);
+}
+
+.painel .body-painel .input-three{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.painel .body-painel .input-three .contain-select{
+    display: flex;
+    flex-direction: column;
+}
+
+.painel .body-painel .input-three .contain-select .icon-input{
+    display: flex;
+}
+  
+.painel .body-painel .input-three .contain-select .icon-input input{
+    border: 1px solid rgba(159, 201, 255, 0.404);
+    background-color: rgba(159, 201, 255, 0.404);
+    padding: 10px;
+    outline: none;
+    font-size: 16px;
+    color: rgb(97, 95, 95);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.painel .body-painel .input-three .contain-select .icon-input i{
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    font-size: 24px;
+    border-top-left-radius: 5px;
+    border-end-start-radius: 5px;
+}
+
+.painel .body-painel .input-three .contain-select span{
+    font-family: 17px;
+    font-weight: 700;
+    color: #007bff;
+}
+
+.painel .body-painel .input-three .contain-select select{
+    border: 1px solid rgba(159, 201, 255);
+    background-color: rgba(159, 201, 255, 0.404);
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    color: rgb(97, 95, 95);
+    width: 200px;
+}
+
+
+.body-painel .contain-buttons{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap: 30px;
+    padding: 50px;
+}
+
+.contain-buttons button{
+    color: rgb(63, 63, 63);
+    border: 1px solid rgb(235, 235, 235);
+    background-color: rgb(207, 207, 255);
+    display: flex;
+    width: 120px;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
+    font-weight: 700;
+    padding: 0;
+    margin: 0;
+}
+
+.contain-buttons .span-save i{
+    padding: 10px;
+    font-size: 25px;
+    color:white;
+    background-color: rgb(22, 167, 22);
+    border-top-left-radius: 5px;
+    border-end-start-radius: 5px;
+    border: 1px solid rgb(19, 204, 19);
+}
+
+
+
+.contain-buttons .span-back i{
+    padding: 10px;
+    font-size: 25px;
+    color:white;
+    background-color: #0b63c2;
+    border-top-left-radius: 5px;
+    border-end-start-radius: 5px;
+    border: 1px solid #007bff;
+}
+
+.card-tarefa{
+   background: linear-gradient(to top, rgba(175, 175, 175, 0.562) , rgb(255, 255, 255));
+    color:  #007bff;
+    cursor: pointer;
+    align-items: center;
+    width: 800px;
+    border: none;
+    text-align: left;
+    outline: none;
+    border-radius: 5px;
+    display: flex;
+    gap: 20px;
+    height: 60px;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.contain-tarefas .painel2{
+    display: flex;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    gap: 50px;
+    width: 780px;
+}

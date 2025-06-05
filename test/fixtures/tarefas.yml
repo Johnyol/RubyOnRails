@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nome: MyString
+  date_inicio: 2025-06-05
+  data_fim: 2025-06-05
+  custo: 9.99
+  status: MyString
+
+two:
+  nome: MyString
+  date_inicio: 2025-06-05
+  data_fim: 2025-06-05
+  custo: 9.99
+  status: MyString
