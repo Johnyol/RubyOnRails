@@ -1,8 +1,9 @@
 html > body {
-    background:  rgb(200, 218, 226);
+    background-color: #d0dce4;
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/* ----------------- css da navbar --------------- */
 nav{
     padding: 15px !important;
     background: linear-gradient(to top,  rgb(8, 105, 216) , rgb(65, 134, 212));
@@ -91,6 +92,7 @@ nav .navbar-body{
     width: 50px;
 }
 
+/* ----------------- css da section que guardas os cards --------------- */
 section{
     display: flex;
     flex-direction: column;
@@ -111,6 +113,8 @@ section .contain-add-card .button-add-card{
     justify-content: center;
 
 }
+
+/* ----------------- css do card de cadastro de tarefa --------------- */
 
 .contain-add-card .button-add-card button{
     font-size: 20px;
@@ -138,7 +142,6 @@ section .contain-add-card .button-add-card{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
 }
 
 .contain-acordion .accordion{
@@ -151,18 +154,27 @@ section .contain-add-card .button-add-card{
     text-align: left;
     outline: none;
     border-radius: 5px;
-    display: flex;
+    display: none;
     gap: 20px;
     height: 60px;
     font-size: 25px;
     font-weight: 600;
-       
+    margin-top: 20px;
+    justify-content: space-between;
   }
 
   .accordion .contain-angle{
+     align-items: center;
+     display: flex;
+     gap: 10px;
+  }
+
+.angle{
      border-right: 1px solid rgb(170, 170, 170);
      padding: 10px;
-  }
+
+}
+
   .contain-acordion .accordion i{
     font-size: 25px; 
     transition: all ease-in-out 0.20s;
@@ -209,13 +221,13 @@ section .contain-add-card .button-add-card{
     font-weight: 700;
 }
 
-.painel .body-painel .input-two{
+.input-two{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.painel .body-painel .input-two .contain-itens{
+ .input-two .contain-itens{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -227,8 +239,8 @@ section .contain-add-card .button-add-card{
     border: 1px solid rgb(206, 206, 206);
 }
 
-.painel .body-painel .input-two .contain-itens span{
-    font-family: 20px;
+.input-two .contain-itens span{
+    font-size: 20px;
     font-weight: 700;
     color: #007bff;
     border-bottom: 1px solid rgba(145, 145, 145, 0.425);
@@ -236,7 +248,7 @@ section .contain-add-card .button-add-card{
     text-align: center;
 }
 
-.painel .body-painel .input-two .contain-itens .input-calendar input {
+.input-two .contain-itens .input-calendar input {
     border: 1px solid rgba(159, 201, 255, 0.404);
     background-color: rgba(159, 201, 255, 0.404);
     padding: 10px;
@@ -246,22 +258,22 @@ section .contain-add-card .button-add-card{
     color: rgb(97, 95, 95);
 }
 
-.painel .body-painel .input-three{
+.input-three{
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
-.painel .body-painel .input-three .contain-select{
+.input-three .contain-select{
     display: flex;
     flex-direction: column;
 }
 
-.painel .body-painel .input-three .contain-select .icon-input{
+.input-three .contain-select .icon-input{
     display: flex;
 }
   
-.painel .body-painel .input-three .contain-select .icon-input input{
+.input-three .contain-select .icon-input input{
     border: 1px solid rgba(159, 201, 255, 0.404);
     background-color: rgba(159, 201, 255, 0.404);
     padding: 10px;
@@ -272,7 +284,7 @@ section .contain-add-card .button-add-card{
     border-bottom-right-radius: 5px;
 }
 
-.painel .body-painel .input-three .contain-select .icon-input i{
+.input-three .contain-select .icon-input i{
     background-color: #007bff;
     color: white;
     padding: 10px;
@@ -281,13 +293,13 @@ section .contain-add-card .button-add-card{
     border-end-start-radius: 5px;
 }
 
-.painel .body-painel .input-three .contain-select span{
-    font-family: 17px;
+.input-three .contain-select span{
+    font-size: 17px;
     font-weight: 700;
     color: #007bff;
 }
 
-.painel .body-painel .input-three .contain-select select{
+.input-three .contain-select select{
     border: 1px solid rgba(159, 201, 255);
     background-color: rgba(159, 201, 255, 0.404);
     padding: 10px;
@@ -333,6 +345,28 @@ section .contain-add-card .button-add-card{
     border: 1px solid rgb(19, 204, 19);
 }
 
+.contain-buttons .span-save{
+    border: none;
+       color: rgb(63, 63, 63);
+    border: 1px solid rgb(235, 235, 235);
+    background-color: rgb(207, 207, 255);
+    display: flex;
+    width: 120px;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
+
+    padding: 0;
+    margin: 0;
+}
+
+.contain-buttons .span-save .button-save{
+    border: none;
+    background-color: #0b64c200;
+    font-weight: 700;
+}
 
 
 .contain-buttons .span-back i{
@@ -345,8 +379,22 @@ section .contain-add-card .button-add-card{
     border: 1px solid #007bff;
 }
 
-.card-tarefa{
-   background: linear-gradient(to top, rgba(175, 175, 175, 0.562) , rgb(255, 255, 255));
+.span-delete i{
+    background-color: red;
+    color: white;
+    padding: 10px;
+    font-size: 25px;
+    border-top-left-radius: 5px;
+    border-end-start-radius: 5px;
+    border: 1px solid rgb(255, 0, 0);
+}
+
+/* ----------------- css dos cards que apresenta os valores  --------------- */
+
+
+
+.contain-acordion-tarefa .accordion-tarefa{
+    background: linear-gradient(to top, rgba(175, 175, 175, 0.562) , rgb(255, 255, 255));
     color:  #007bff;
     cursor: pointer;
     align-items: center;
@@ -360,14 +408,237 @@ section .contain-add-card .button-add-card{
     height: 60px;
     font-size: 25px;
     font-weight: 600;
+    margin-top: 20px;
+    justify-content: space-between;
+  }
+
+  .accordion-tarefa .contain-angle{
+     align-items: center;
+     display: flex;
+     gap: 10px;
+  }
+
+.angle{
+     border-right: 1px solid rgb(170, 170, 170);
+     padding: 10px;
+
 }
 
-.contain-tarefas .painel2{
-    display: flex;
+  .contain-acordion .accordion i{
+    font-size: 25px; 
+    transition: all ease-in-out 0.20s;
+  }
+
+
+
+.contain-tarefas{
+   display: flex;
+   flex-direction: column;
+   align-items:center ;   
+   margin-top: 20px;
+}
+
+
+
+.contain-tarefas .painel-tarefa-comentario{
+    display:none;
     background-color: rgb(255, 255, 255);
-    display: flex;
     flex-direction: column;
     padding: 40px;
     gap: 50px;
     width: 780px;
+ 
+}
+
+
+
+.edit-link i{
+    color: rgb(255, 208, 0);
+    background-color: rgb(224, 224, 224);
+    padding: 10px;
+    border-radius: 15px;
+ 
+}
+
+.contain-values-task{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.contain-values-task .span-values-date {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    background-color: #f4f4f4;
+    border: 1px solid rgba(155, 199, 255, 0.404);
+    width: 190px;
+    border-radius: 5px;
+}
+
+.span-values-date .data-span{
+    font-size: 20px;
+    color: rgb(83, 83, 83);
+    border-top: 1px solid rgba(164, 203, 255, 0.404);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 60px;
+    font-weight: 500;
+}
+
+
+.contain-values-task .span-values-date span{
+    font-size: 20px;
+    font-weight: 700;
+    color: #007bff;
+    margin: 10px;
+}
+
+.contain-values-custo{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.span-values-custo{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    align-items: center;
+}
+
+.span-values-custo span{
+     font-size: 20px;
+    font-weight: 700;
+    color: #007bff;
+}
+
+.span-values-custo .icon{
+     font-size: 17px;
+}
+
+.span-values-custo .icon i{
+     font-size: 20px;
+    color: #007bff;
+}
+
+/* ----------------- css dos comentarios dos cards  --------------- */
+
+.contain-comentarios{
+    background-color: #f8f4f400;
+    display: none;
+    align-items: center;
+    flex-direction: column;
+    width:780px;
+}
+
+.contain-comentarios .card-nav-comentario{
+    background-color: rgba(255, 240, 240, 0.244);
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 500;
+    font-size: 20px;
+    color: rgb(115, 115, 115);
+    border-radius: 10px;
+}
+
+.contain-comentarios .card-nav-comentario i{
+    color: #007bff;
+    font-size: 35px;
+}
+
+.contain-comentarios .painel-contain-comentario{
+    border: 1px solid rgb(174, 174, 174);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #f8f4f4;
+    gap: 20px;
+}
+
+.card-comentario-value{
+    width: 100%;
+    padding: 20px;
+}
+
+.card-comentario-value .body-card-comentario {
+    display: flex;
+    justify-content: space-between;
+    align-items: first baseline;
+    width: 100%;
+    gap: 20px;
+    border-bottom: 2px solid rgb(205, 205, 205);
+}
+
+.body-card-comentario .delete-comentario {
+    display: flex;
+    justify-content: right;
+    color: red;
+    padding: 5px;
+}
+
+.body-card-comentario .delete-comentario button {
+   border: none;
+   background-color: rgba(255, 255, 255, 0);
+}
+.delete-comentario i{
+    background-color: #e4e4e8;
+    border-radius: 5px;
+    padding: 7px;
+    font-size: 20px;
+    border: 1px solid #b7b7b7;
+}
+
+
+.contain-form-comentario form{
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contain-form-comentario textarea{
+    height: 300px;
+    width: 500px;
+    padding: 10px;
+    background-color: #dcece4;
+    border-radius: 20px;
+    outline: none;
+    resize: none;
+}
+
+.contain-form-comentario .enviar-form-comentario i{
+    padding: 10px;
+    color: white;
+    background-color: #007bff;
+    font-size: 25px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
+}
+.contain-form-comentario .enviar-form-comentario input{
+    padding: 10px;
+    border: none;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: grey;
+    font-weight: 600;
+     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
+}
+.contain-form-comentario .enviar-form-comentario{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    
 }

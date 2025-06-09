@@ -10,6 +10,12 @@ def create
   end
 end
 
+def destroy
+  @comentario = Comentario.find(params[:id])
+  @comentario.destroy
+  redirect_to root_path, notice: "Comentário excluído com sucesso."
+end
+
 private
 
 def comentario_params

@@ -1,9 +1,17 @@
 Rails.application.routes.draw do
-  root "pages#home"
-  get "/pages", to: "pages#home"
-  resources :tarefas do
-    resources :comentarios
-  end
+ root "pages#home"
+ get "/pages", to: "pages#home"
+
+resources :tarefas do
+  resources :comentarios, only: [ :create, :destroy ]
+
+   member do
+     delete :delete_comments
+   end
+ end
+
+
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
