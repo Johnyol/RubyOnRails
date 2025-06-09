@@ -33,7 +33,7 @@ function ativarAccordionsTarefa() {
 }
 
 document.addEventListener("turbo:load", () => {
-  ativarAccordionsTarefa();
+  ativarAccordionsTarefa(); 
 });
 
 function mostrarFormulario() {
