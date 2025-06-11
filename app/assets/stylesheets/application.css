@@ -111,7 +111,11 @@ section .contain-add-card .button-add-card{
     display: flex;
     align-items: center;
     justify-content: center;
+}
 
+.button-add-card a{
+    text-decoration: none;
+    color: black;
 }
 
 /* ----------------- css do card de cadastro de tarefa --------------- */
@@ -154,7 +158,7 @@ section .contain-add-card .button-add-card{
     text-align: left;
     outline: none;
     border-radius: 5px;
-    display: none;
+    display: flex;
     gap: 20px;
     height: 60px;
     font-size: 25px;
@@ -162,6 +166,10 @@ section .contain-add-card .button-add-card{
     margin-top: 20px;
     justify-content: space-between;
   }
+
+  .hidden {
+  display: none;
+}
 
   .accordion .contain-angle{
      align-items: center;
@@ -183,7 +191,6 @@ section .contain-add-card .button-add-card{
  .painel{
     background-color: #cdc8c8;
     padding: 1px;
-    display: none;
     overflow: hidden;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -347,7 +354,7 @@ section .contain-add-card .button-add-card{
 
 .contain-buttons .span-save{
     border: none;
-       color: rgb(63, 63, 63);
+    color: rgb(63, 63, 63);
     border: 1px solid rgb(235, 235, 235);
     background-color: rgb(207, 207, 255);
     display: flex;
@@ -357,7 +364,6 @@ section .contain-add-card .button-add-card{
     cursor: pointer;
     border-radius: 5px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
-
     padding: 0;
     margin: 0;
 }
@@ -368,6 +374,10 @@ section .contain-add-card .button-add-card{
     font-weight: 700;
 }
 
+.contain-buttons .span-back a{
+    text-decoration: none;
+    color: rgb(63, 63, 63);
+}
 
 .contain-buttons .span-back i{
     padding: 10px;
@@ -416,12 +426,13 @@ section .contain-add-card .button-add-card{
      align-items: center;
      display: flex;
      gap: 10px;
+   
   }
 
 .angle{
      border-right: 1px solid rgb(170, 170, 170);
      padding: 10px;
-
+   
 }
 
   .contain-acordion .accordion i{
@@ -429,7 +440,9 @@ section .contain-add-card .button-add-card{
     transition: all ease-in-out 0.20s;
   }
 
-
+.contain-angle .title-data-tarefa{
+    text-decoration: none;
+}
 
 .contain-tarefas{
    display: flex;
@@ -441,7 +454,7 @@ section .contain-add-card .button-add-card{
 
 
 .contain-tarefas .painel-tarefa-comentario{
-    display:none;
+    display:flex;
     background-color: rgb(255, 255, 255);
     flex-direction: column;
     padding: 40px;
@@ -531,7 +544,7 @@ section .contain-add-card .button-add-card{
 
 .contain-comentarios{
     background-color: #f8f4f400;
-    display: none;
+    display: flex;
     align-items: center;
     flex-direction: column;
     width:780px;
