@@ -429,6 +429,10 @@ section .contain-add-card .button-add-card{
    
   }
 
+  .accordion-header{
+    text-decoration: none;
+    padding: 5px;
+  }
 .angle{
      border-right: 1px solid rgb(170, 170, 170);
      padding: 10px;
@@ -448,7 +452,6 @@ section .contain-add-card .button-add-card{
    display: flex;
    flex-direction: column;
    align-items:center ;   
-   margin-top: 20px;
 }
 
 
@@ -470,7 +473,7 @@ section .contain-add-card .button-add-card{
     background-color: rgb(224, 224, 224);
     padding: 10px;
     border-radius: 15px;
- 
+    margin-right: 10px;
 }
 
 .contain-values-task{
@@ -589,10 +592,11 @@ section .contain-add-card .button-add-card{
     display: flex;
     justify-content: space-between;
     align-items: first baseline;
-    width: 100%;
+    width: 550px;
     gap: 20px;
     border-bottom: 2px solid rgb(205, 205, 205);
 }
+
 
 .body-card-comentario .delete-comentario {
     display: flex;
@@ -655,3 +659,5 @@ section .contain-add-card .button-add-card{
     align-items: center;
     
 }
+
+

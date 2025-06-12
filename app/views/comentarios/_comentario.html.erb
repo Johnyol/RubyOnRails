@@ -1,0 +1,12 @@
+<div class="card-comentario-value" id="<%= dom_id(comentario) %>">
+  <div class="body-card-comentario">
+    <div class="conteudo-card">
+      <%= comentario.conteudo %>  
+    </div>
+    <span class="delete-comentario">
+      <%= button_to tarefa_comentario_path(comentario.tarefa, comentario), method: :delete, class: "delete-comentario" do %>
+        <i class="fa-solid fa-trash-can"></i>
+      <% end %>
+    </span>
+  </div>
+</div>

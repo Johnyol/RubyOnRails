@@ -1,60 +1,42 @@
 <%= turbo_frame_tag dom_id(tarefa) do %>
-<div class="contain-tarefas">
-                  <div class="painel-tarefa-comentario" id="painel-tarefa-comentario-<%=tarefa.id %>" data-accordion-target="panel">
-                    <div class="contain-values-task">
-                      <div class="span-values-date">
-                        <span>Inicio</span>
-                        <div class="data-span"><p><%= tarefa.date_inicio %></p></div>
-                      </div>
-                      <div class="span-values-date">
-                        <span>Conclusão</span>
-                        <div class="data-span"><p><%= tarefa.data_fim %></p></div>
-                      </div>
-                    </div>
-                    <div class="contain-values-custo">
-                        <div class="span-values-custo">
-                            <span> Custo Estimado</span>
-                            <div class="icon"><i class="fa-solid fa-brazilian-real-sign"></i> <%= tarefa.custo %> </div> 
-                        </div>
-                        <div class="span-values-custo">
-                          <span> Status da Tarefa </span><%= tarefa.status %>
-                          </div>
-                    </div>
-                  </div>
+  <div class="contain-tarefas">
+    
+    <div class="painel-tarefa-comentario" id="painel-tarefa-comentario-<%=tarefa.id %>">
+      <div class="contain-values-task">
+        <div class="span-values-date">
+          <span>Inicio</span>
+          <div class="data-span"><p><%= tarefa.date_inicio %></p></div>
+        </div>
+        <div class="span-values-date">
+          <span>Conclusão</span>
+          <div class="data-span"><p><%= tarefa.data_fim %></p></div>
+        </div>
+      </div>
+      <div class="contain-values-custo">
+        <div class="span-values-custo">
+          <span> Custo Estimado</span>
+          <div class="icon"><i class="fa-solid fa-brazilian-real-sign"></i> <%= tarefa.custo %> </div> 
+        </div>
+        <div class="span-values-custo">
+          <span> Status da Tarefa </span><%= tarefa.status %>
+        </div>
+      </div>
+    </div>
 
-                  <div class="contain-comentarios" id="painel-comentarios-<%= tarefa.id %>">
+    <div class="contain-comentarios" id="painel-comentarios-<%= tarefa.id %>">
+      <div class="card-nav-comentario"> <i class="fa-solid fa-comments"></i> Comentários </div>
+      <div class="painel-contain-comentario">
 
-                    <div class="card-nav-comentario"> <i class="fa-solid fa-comments"></i> Comentários </div>
+        <div id="comentarios_tarefa_<%= tarefa.id %>">
+          <%= render tarefa.comentarios %>
+        </div>
 
-                    <div class="painel-contain-comentario">
-                    <% tarefa.comentarios.each do |comentario| %>
-                        <div class="card-comentario-value">
-                          <div class="body-card-comentario">
-                            <div class="conteudo-card">
-                              <%= comentario.conteudo %>  
-                            </div>
-                            <span class="delete-comentario">
-                              <%= button_to tarefa_comentario_path(tarefa, comentario), method: :delete, class: "delete-comentario" do %>
-                              <i class="fa-solid fa-trash-can"></i>
-                              <% end %>
-                             
-                            </span>
-                        
-                               
-                          </div>
-                        </div>
-                    <% end %>
-                      <div class="contain-form-comentario">
-                    
-                        <%= form_with(model: [tarefa, Comentario.new], local: true , data: { turbo_frame: "_top" }) do |form| %>
-                          <%= form.text_area :conteudo %>
-                          <div class="enviar-form-comentario"><i class="fa-solid fa-envelope"></i><%= form.submit "Enviar Comentário" %></div>
-                        <% end %>
-                      </div>
+        <div class="contain-form-comentario">
+          <%= render 'comentarios/form', tarefa: tarefa %>
+        </div>
 
-                    </div>
-
-                  </div>
-           
-              </div>
+      </div>
+    </div>
+        
+  </div>
 <% end %>
