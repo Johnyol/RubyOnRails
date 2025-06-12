@@ -1,0 +1,49 @@
+# $ docker-compose build
+# $ docker-compose run ruby_on_rails bundle install
+#
+#  Configurar Banco de dados se não existir
+# $ docker-compose run ruby_on_rails bundle exec rake db:create RAILS_ENV=development
+#  Rodar Migration
+# $ docker-compose run ruby_on_rails bundle exec rake db:migrate RAILS_ENV=development
+#
+# Console do Rails
+# $ docker-compose run ruby_on_rails bundle exec rails c
+#
+# Servidor do Rails
+# $ docker-compose up --force-recreate # acessar servidor
+
+services:
+  ruby_on_rails:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh -c "rm -rf tmp/pids/server.pid; bundle exec rails s -p 3000 -b '0.0.0.0'"
+    ports:
+      - 5000:3000
+    environment:
+      NODE_ENV: development
+      RAILS_ENV: development
+      BUNDLE_PATH: vendor/cache
+    tmpfs:
+      - /tmp
+    volumes:
+      - .:/erp
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 5432
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+      # POSTGRES_DB: "db"
+    healthcheck:
+      # test: pg_isready -U postgres -h 127.0.0.1
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+
+volumes:
+  postgres:
