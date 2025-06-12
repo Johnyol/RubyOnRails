@@ -6,6 +6,7 @@
 
 # Ignore docker
 Dockerfile
+docker-compose.yml
 
 # ignorar instalação do bundle
 /vendor
