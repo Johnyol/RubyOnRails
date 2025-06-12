@@ -1,6 +1,5 @@
 # Máquina com ruby instalado
 
-# FROM public.ecr.aws/q4n5m2p1/seucondominio-os
 FROM ruby:3.3.5
 
 ENV ERP /erp
