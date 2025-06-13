@@ -5,23 +5,14 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%# Forma correta de carregar seu CSS principal %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    
-    <%# Carrega o JavaScript da sua aplicação UMA ÚNICA VEZ. ESSENCIAL! %>
     <%= javascript_importmap_tags %>
-
-    <%# Carregar bibliotecas externas (Bootstrap, Font Awesome) é ok %>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="https://kit.fontawesome.com/7ec12fe446.js" defer></script>
-
   </head>
-
   <body>
     <%= render 'layouts/topnavbar' %>
-    
     <main>
       <%= yield %>
     </main>

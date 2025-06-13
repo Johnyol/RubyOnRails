@@ -1,46 +1,160 @@
+<% @tarefa = @tarefa || Tarefa.new %>
 <section>
-  <%# Este frame é o container. Ele começa apenas com o botão "Cadastrar". %>
-    <div class="contain-add-card">
-      <div class="button-add-card">
-        <div class="icon-plus">
-          <i class="fa-solid fa-plus"></i>
+  <div class="contain-add-card">
+        <div class="button-add-card">
+            <div class="icon-plus">
+              <i class="fa-solid fa-plus"></i>
+            </div>
+            <button onclick="mostrarFormulario()">Cadastrar Tarefa</button>
         </div>
-       <button>
-        <%= link_to "Cadastrar Tarefa", new_tarefa_path, data: { turbo_frame: "form_tarefa" } %>
-       </button> 
+  </div>
+
+  <div class="contain-grid-cards"> 
+      <div class="contain-acordion" id="accordion">
+          <button class="accordion" onclick="abrirFormularioETarefa()"> 
+            <div class="contain-angle">  
+              <div class="angle"> 
+                <i class="fa-solid fa-angle-right" id="angle"> </i> 
+              </div>
+               <span>Nova Tarefa</span>
+            </div>
+         </button>
       </div>
-    </div>
 
-  <%= turbo_frame_tag "form_tarefa" do %>
-  
-  <% end %>
 
-  <%# A LISTA DE TAREFAS (FORA DO FRAME ACIMA)   %>
-
-  <div class="contain-tarefas">
-    <% @tarefas.each do |tarefa| %>
-      <%= turbo_frame_tag tarefa do %>
-      <div class="contain-acordion-tarefa">
-          <%# 1. LINK PARA MOSTRAR/ESCONDER DETALHES (aponta para o frame de conteúdo) %>
-          <%= link_to tarefa_path(tarefa), class: "accordion-header", data: { turbo_frame: dom_id(tarefa, "content") } do %>
-            <div class="accordion-tarefa">
-                    <div class="contain-angle">
-                      <div class="angle"><i class="fa-solid fa-angle-right"></i></div>
-                      <span class="title-data-tarefa"><%= tarefa.nome %></span>
+      <div class="painel" id="painel">
+            <%= form_with(model: @tarefa || Tarefa.new, local: true, html: { class: "body-painel" }) do |form| %>
+                    <div class="input-one">
+                      <%= form.label :nome, "Nome da Tarefa:" %>
+                      <%= form.text_field :nome, required: true %>
                     </div>
-                   <span class="contain-edit-tarefa">
-                    <%= link_to edit_tarefa_path(tarefa), class: "edit-link", data: { turbo_frame: "form_tarefa" } do %>
+                    <div class="input-two"> 
+                        <div class="contain-itens">
+                            <span><%= form.label :data_inicio, "Início" %></span>
+                            <div class="input-calendar"> 
+                              <%= form.date_field :date_inicio %>
+                            </div>
+                        </div>
+                        <div class="contain-itens">
+                          <span>
+                            <%= form.label :data_fim, "Conclusão" %>
+                          </span>
+                          <div class="input-calendar"> 
+                            <%= form.date_field :data_fim %>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="input-three">
+                      <div class="contain-select">
+                        <span><%= form.label :custo, "Custo estimado (R$)" %></span>
+                        <div class="icon-input">
+                          <i class="fa-solid fa-brazilian-real-sign"></i>
+                          <%= form.number_field :custo, step: 0.01 %>
+                        </div> 
+                      </div>
+                      <div class="contain-select" >
+                        <span><%= form.label :status, "Status da Tarefa" %></span>
+                        <%= form.select :status, ["Concluído", "Pendente", "Em andamento"] %>
+                      </div>
+                    </div>
+
+                    <div class="contain-buttons">  
+                      <button class="span-back" type="button" onclick="fecharFormulario()">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        Voltar 
+                      </button>
+                      <div class="span-save">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        <%= form.submit "Salvar", class: "button-save" %>
+                    </div>
+                 <% end %>
+                 <% if @tarefa.persisted? %>
+                      <div class="span-delete">
+                        <%= button_to tarefa_path(@tarefa), method: :delete, class: "delete-tarefa", data: { confirm: "Tem certeza que deseja excluir?" } do %>
+                            <i class="fa-solid fa-trash-can"></i><span>Excluir Tarefa</span>
+                        <% end %> 
+                      </div>
+                 <% end %>
+          </div>
+      </div>
+   
+        <div class="contain-tarefas">
+             <% @tarefas.each do |tarefa| %>
+              <div class="contain-acordion-tarefa">
+                  <button class="accordion-tarefa" data-tarefa-id="<%= tarefa.id %>">
+                  <div class="contain-angle">
+                    <div class="angle">  
+                      <i class="fa-solid fa-angle-right" id="angle"> </i> 
+                    </div>
+                    <span> <%= tarefa.nome %></span>
+                  </div>
+
+                  <span class="contain-edit-tarefa">
+                    <%= link_to edit_tarefa_path(tarefa), class: "edit-link", onclick: "abrirFormularioETarefa()" do %>
                       <i class="fa-solid fa-pencil"></i>
                     <% end %>
                   </span>
-            </div>
-          <% end %>
-    </div>
-  
-        <%# CONTEÚDO (começa vazio e receberá os detalhes da tarefa) %>
-        <%= turbo_frame_tag dom_id(tarefa, "content") %>
-        
-      <% end %>
-    <% end %>
-  </div>
+                </button>
+              </div>
+   
+
+                  <div class="painel-tarefa-comentario" id="painel-tarefa-comentario-<%=tarefa.id %>">
+                    <div class="contain-values-task">
+                      <div class="span-values-date">
+                        <span>Inicio</span>
+                        <div class="data-span"><p><%= tarefa.date_inicio %></p></div>
+                      </div>
+                      <div class="span-values-date">
+                        <span>Conclusão</span>
+                        <div class="data-span"><p><%= tarefa.data_fim %></p></div>
+                      </div>
+                    </div>
+                    <div class="contain-values-custo">
+                        <div class="span-values-custo">
+                            <span> Custo Estimado</span>
+                            <div class="icon"><i class="fa-solid fa-brazilian-real-sign"></i> <%= tarefa.custo %> </div> 
+                        </div>
+                        <div class="span-values-custo">
+                          <span> Status da Tarefa </span><%= tarefa.status %>
+                          </div>
+                    </div>
+                  </div>
+
+                  <div class="contain-comentarios" id="painel-comentarios-<%= tarefa.id %>">
+
+                    <div class="card-nav-comentario"> <i class="fa-solid fa-comments"></i> Comentários </div>
+
+                    <div class="painel-contain-comentario">
+                    <% tarefa.comentarios.each do |comentario| %>
+                        <div class="card-comentario-value">
+                          <div class="body-card-comentario">
+                            <div class="conteudo-card">
+                              <%= comentario.conteudo %>  
+                            </div>
+                            <span class="delete-comentario">
+                              <%= button_to tarefa_comentario_path(tarefa, comentario), method: :delete, class: "delete-comentario" do %>
+                              <i class="fa-solid fa-trash-can"></i>
+                              <% end %>
+                             
+                            </span>
+                        
+                               
+                          </div>
+                        </div>
+                    <% end %>
+                      <div class="contain-form-comentario">
+                    
+                        <%= form_with(model: [tarefa, Comentario.new], local: true) do |form| %>
+                          <%= form.text_area :conteudo %>
+                          <div class="enviar-form-comentario"><i class="fa-solid fa-envelope"></i><%= form.submit "Enviar Comentário" %></div>
+                        <% end %>
+                      </div>
+
+                    </div>
+
+                  </div>
+              <% end %>
+        </div>
+
 </section>

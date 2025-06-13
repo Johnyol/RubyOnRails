@@ -148,7 +148,7 @@ section .contain-add-card .button-add-card{
     align-items: center;
 }
 
-.contain-acordion .accordion{
+.accordion{
     background: linear-gradient(to top, rgba(175, 175, 175, 0.562) , rgb(255, 255, 255));
     color:  #007bff;
     cursor: pointer;
@@ -158,7 +158,7 @@ section .contain-add-card .button-add-card{
     text-align: left;
     outline: none;
     border-radius: 5px;
-    display: flex;
+    display: none;
     gap: 20px;
     height: 60px;
     font-size: 25px;
@@ -167,9 +167,6 @@ section .contain-add-card .button-add-card{
     justify-content: space-between;
   }
 
-  .hidden {
-  display: none;
-}
 
   .accordion .contain-angle{
      align-items: center;
@@ -194,8 +191,8 @@ section .contain-add-card .button-add-card{
     overflow: hidden;
     border: 1px solid #ccc;
     border-radius: 5px;
-  
-}
+    display: none;
+}   
 
 
 .painel .body-painel{

@@ -1,5 +1,0 @@
-<%# Substitui o frame da tarefa editada pelo conteúdo atualizado %>
-<%= turbo_stream.replace @tarefa, partial: "tarefas/tarefa", locals: { tarefa: @tarefa } %>
-
-<%# Remove o formulário de edição da tela %>
-<%= turbo_stream.remove "form_tarefa" %>
