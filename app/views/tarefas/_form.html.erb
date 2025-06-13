@@ -1,11 +1,9 @@
-
 <div data-controller="accordion" data-accordion-start-open-value="<%= start_open %>" class="contain-grid-cards">
-  <%#  Adicionado o 'data-action' para acionar o Stimulus %>
   <div class="contain-acordion" id="accordion" data-action="click->accordion#toggle">
     <button class="accordion">
       <div class="contain-angle">
         <div class="angle">
-          <i class="fa-solid fa-angle-right"></i>
+          <i class="fa-solid fa-angle-right" data-accordion-target="icon"></i>
         </div>
         <span><%= tarefa.persisted? ? tarefa.nome : "Nova Tarefa" %></span>
       </div>
@@ -50,7 +48,6 @@
       </div>
 
       <div class="contain-buttons"> 
-        <%# Este link simplesmente volta para a página inicial %>
         <button class="span-back">
           <i class="fa-solid fa-rotate-left"></i>
           <%= link_to "Voltar", root_path, class: "span-back" %>

@@ -1,7 +1,5 @@
 <section>
   <%# Este frame é o container. Ele começa apenas com o botão "Cadastrar". %>
-
-  <%= turbo_frame_tag "form_tarefa" do %>
     <div class="contain-add-card">
       <div class="button-add-card">
         <div class="icon-plus">
@@ -12,38 +10,31 @@
        </button> 
       </div>
     </div>
+
+  <%= turbo_frame_tag "form_tarefa" do %>
+  
   <% end %>
 
   <%# A LISTA DE TAREFAS (FORA DO FRAME ACIMA)   %>
 
   <div class="contain-tarefas">
     <% @tarefas.each do |tarefa| %>
-      <%# Cada tarefa é seu próprio frame para atualizações/exclusões futuras %>
       <%= turbo_frame_tag tarefa do %>
-
       <div class="contain-acordion-tarefa">
-        <%# A div abaixo usa flexbox para alinhar o cabeçalho e o botão de edição %>
-        <div class="accordion-tarefa">
-          
           <%# 1. LINK PARA MOSTRAR/ESCONDER DETALHES (aponta para o frame de conteúdo) %>
-          <%# O cabeçalho inteiro agora é um link clicável. %>
-          <%= link_to tarefa_path(tarefa), class: "accordion-tarefa-header", data: { turbo_frame: dom_id(tarefa, "content") } do %>
-            <div class="contain-angle">
-              <div class="angle">
-                <i class="fa-solid fa-angle-right"></i>
-              </div>
-              <span class="title-data-tarefa"><%= tarefa.nome %></span>
+          <%= link_to tarefa_path(tarefa), class: "accordion-header", data: { turbo_frame: dom_id(tarefa, "content") } do %>
+            <div class="accordion-tarefa">
+                    <div class="contain-angle">
+                      <div class="angle"><i class="fa-solid fa-angle-right"></i></div>
+                      <span class="title-data-tarefa"><%= tarefa.nome %></span>
+                    </div>
+                   <span class="contain-edit-tarefa">
+                    <%= link_to edit_tarefa_path(tarefa), class: "edit-link", data: { turbo_frame: "form_tarefa" } do %>
+                      <i class="fa-solid fa-pencil"></i>
+                    <% end %>
+                  </span>
             </div>
           <% end %>
-            <%# 2. LINK PARA EDITAR (aponta para o frame do formulário) %>
-            
-          <span class="contain-edit-tarefa">
-            <%= link_to edit_tarefa_path(tarefa), class: "edit-link", data: { turbo_frame: "form_tarefa" } do %>
-              <i class="fa-solid fa-pencil"></i>
-            <% end %>
-          </span>
-     </div>
-        
     </div>
   
         <%# CONTEÚDO (começa vazio e receberá os detalhes da tarefa) %>

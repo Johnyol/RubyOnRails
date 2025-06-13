@@ -1,0 +1,18 @@
+<% comentario ||= Comentario.new %>
+
+<%= form_with(model: [tarefa, comentario], id: dom_id(tarefa, "new_comment_form")) do |form| %>
+  <% if comentario.errors.any? %>
+    <div style="color: red;">
+      <ul>
+        <% comentario.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.text_area :conteudo %>
+  <div class="enviar-form-comentario">
+    <i class="fa-solid fa-envelope"></i><%= form.submit "Enviar Comentário" %>
+  </div>
+<% end %>
