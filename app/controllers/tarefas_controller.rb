@@ -1,10 +1,13 @@
 class TarefasController < ApplicationController
   before_action :set_tarefas, only: [ :index, :create, :update ]
 
-  def index
-    @tarefa = Tarefa.new
-  end
+def index
+  @tarefa = Tarefa.new
 
+  respond_to do |format|
+    format.json { render json: @tarefas, include: :comentarios }
+  end
+end
  def show
     @tarefa = Tarefa.find(params[:id])
  end
@@ -20,11 +23,7 @@ class TarefasController < ApplicationController
 
 def edit
     @tarefa = Tarefa.find(params[:id])
-    respond_to do |format|
-      format.html do
-        render layout: false if turbo_frame_request?
-      end
-    end
+      redirect_to root_path
 end
 
   def create

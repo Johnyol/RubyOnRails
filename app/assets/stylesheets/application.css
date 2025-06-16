@@ -460,6 +460,7 @@ section .contain-add-card .button-add-card{
     padding: 40px;
     gap: 50px;
     width: 780px;
+    display: none;
  
 }
 
@@ -544,7 +545,7 @@ section .contain-add-card .button-add-card{
 
 .contain-comentarios{
     background-color: #f8f4f400;
-    display: flex;
+    display: none;
     align-items: center;
     flex-direction: column;
     width:780px;
