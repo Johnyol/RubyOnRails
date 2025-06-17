@@ -1,86 +1,87 @@
 <% @tarefa = @tarefa || Tarefa.new %>
 <section>
+
   <div class="contain-add-card">
-        <div class="button-add-card">
-            <div class="icon-plus">
-              <i class="fa-solid fa-plus"></i>
-            </div>
-            <button onclick="mostrarFormulario()">Cadastrar Tarefa</button>
-        </div>
+    <div class="button-add-card" >
+      <div class="icon-plus">
+        <i class="fa-solid fa-plus"></i>
+      </div>
+      <button id="show-card-form">Cadastrar Tarefa</button>
+    </div>
   </div>
 
   <div class="contain-grid-cards"> 
-      <div class="contain-acordion" id="accordion">
-          <button class="accordion" onclick="abrirFormularioETarefa()"> 
-            <div class="contain-angle">  
-              <div class="angle"> 
-                <i class="fa-solid fa-angle-right" id="angle"> </i> 
-              </div>
-               <span>Nova Tarefa</span>
-            </div>
-         </button>
-      </div>
-
-
-      <div class="painel" id="painel">
-            <%= form_with(model: @tarefa || Tarefa.new, local: true, html: { class: "body-painel" }) do |form| %>
-                    <div class="input-one">
-                      <%= form.label :nome, "Nome da Tarefa:" %>
-                      <%= form.text_field :nome, required: true %>
-                    </div>
-                    <div class="input-two"> 
-                        <div class="contain-itens">
-                            <span><%= form.label :data_inicio, "Início" %></span>
-                            <div class="input-calendar"> 
-                              <%= form.date_field :date_inicio %>
-                            </div>
-                        </div>
-                        <div class="contain-itens">
-                          <span>
-                            <%= form.label :data_fim, "Conclusão" %>
-                          </span>
-                          <div class="input-calendar"> 
-                            <%= form.date_field :data_fim %>
-                          </div>
-                        </div>
-                    </div>
-
-                    <div class="input-three">
-                      <div class="contain-select">
-                        <span><%= form.label :custo, "Custo estimado (R$)" %></span>
-                        <div class="icon-input">
-                          <i class="fa-solid fa-brazilian-real-sign"></i>
-                          <%= form.number_field :custo, step: 0.01 %>
-                        </div> 
-                      </div>
-                      <div class="contain-select" >
-                        <span><%= form.label :status, "Status da Tarefa" %></span>
-                        <%= form.select :status, ["Concluído", "Pendente", "Em andamento"] %>
-                      </div>
-                    </div>
-
-                    <div class="contain-buttons">  
-                      <button class="span-back" type="button" onclick="fecharFormulario()">
-                        <i class="fa-solid fa-rotate-left"></i>
-                        Voltar 
-                      </button>
-                      <div class="span-save">
-                        <i class="fa-solid fa-clipboard-list"></i>
-                        <%= form.submit "Salvar", class: "button-save" %>
-                    </div>
-                 <% end %>
-                 <% if @tarefa.persisted? %>
-                      <div class="span-delete">
-                        <%= button_to tarefa_path(@tarefa), method: :delete, class: "delete-tarefa", data: { confirm: "Tem certeza que deseja excluir?" } do %>
-                            <i class="fa-solid fa-trash-can"></i><span>Excluir Tarefa</span>
-                        <% end %> 
-                      </div>
-                 <% end %>
+    <div class="contain-acordion" id="accordion">
+      <button class="accordion"> 
+        <div class="contain-angle">  
+          <div class="angle"> 
+            <i class="fa-solid fa-angle-right" id="angle"> </i> 
           </div>
-      </div>
-   
-        <div class="contain-tarefas" id="contain-tarefas">
-
+          <span>Nova Tarefa</span>
         </div>
+      </button>
+    </div>
+
+
+    <div class="painel" id="painel">
+      <%= form_with(model: @tarefa || Tarefa.new, local: true, html: { class: "body-painel" }) do |form| %>
+        <div class="input-one">
+          <%= form.label :nome, "Nome da Tarefa:" %>
+          <%= form.text_field :nome, required: true %>
+        </div>
+        <div class="input-two"> 
+          <div class="contain-itens">
+            <span><%= form.label :data_inicio, "Início" %></span>
+            <div class="input-calendar"> 
+              <%= form.date_field :date_inicio %>
+            </div>
+          </div>
+          <div class="contain-itens">
+            <span><%= form.label :data_fim, "Conclusão" %></span>
+            <div class="input-calendar"> 
+              <%= form.date_field :data_fim %>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-three">
+          <div class="contain-select">
+            <span><%= form.label :custo, "Custo estimado (R$)" %></span>
+            <div class="icon-input">
+              <i class="fa-solid fa-brazilian-real-sign"></i>
+              <%= form.number_field :custo, step: 0.01 %>
+            </div> 
+          </div>
+          <div class="contain-select" >
+            <span><%= form.label :status, "Status da Tarefa" %></span>
+            <%= form.select :status, ["Concluído", "Pendente", "Em andamento"] %>
+          </div>
+        </div>
+
+        <div class="contain-buttons">  
+          <button class="span-back" type="button" id="closeForm">
+            <i class="fa-solid fa-rotate-left"></i>
+            Voltar 
+          </button>
+          <div class="span-save">
+            <i class="fa-solid fa-clipboard-list"></i>
+            <%= form.submit "Salvar", class: "button-save" %>
+        </div>
+      <% end %>
+         <% if @tarefa.persisted? %>
+          <div class="span-delete">
+            <%= button_to tarefa_path(@tarefa), method: :delete, class: "delete-tarefa", data: { confirm: "Tem certeza que deseja excluir?" } do %>
+              <i class="fa-solid fa-trash-can"></i><span>Excluir Tarefa</span>
+            <% end %> 
+          </div>
+         <% end %>
+      </div>
+    </div>
+   
+    <div class="contain-tarefas" id="contain-tarefas">
+
+    </div>
+
+  </div>
 
 </section>

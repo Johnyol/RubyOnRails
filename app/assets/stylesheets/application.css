@@ -201,7 +201,7 @@ section .contain-add-card .button-add-card{
     flex-direction: column;
     padding: 40px;
     gap: 50px;
-    width: 780px;
+    width: 800px;
 }
 
 .painel .body-painel .input-one{
@@ -459,9 +459,9 @@ section .contain-add-card .button-add-card{
     flex-direction: column;
     padding: 40px;
     gap: 50px;
-    width: 780px;
-    display: none;
- 
+    width: 800px;
+    display: flex;
+    justify-content: right;
 }
 
 
@@ -545,10 +545,10 @@ section .contain-add-card .button-add-card{
 
 .contain-comentarios{
     background-color: #f8f4f400;
-    display: none;
+    display: flex;
     align-items: center;
     flex-direction: column;
-    width:780px;
+    width:800px;
 }
 
 .contain-comentarios .card-nav-comentario{
@@ -584,26 +584,27 @@ section .contain-add-card .button-add-card{
 .card-comentario-value{
     width: 100%;
     padding: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .card-comentario-value .body-card-comentario {
-    display: flex;
-    justify-content: space-between;
-    align-items: first baseline;
     width: 550px;
     gap: 20px;
     border-bottom: 2px solid rgb(205, 205, 205);
 }
 
-
 .body-card-comentario .delete-comentario {
     display: flex;
     justify-content: right;
-    color: red;
     padding: 5px;
 }
 
-.body-card-comentario .delete-comentario button {
+.body-card-comentario .delete-comentario i{
+    color: red;
+}
+
+.enviar-form-comentario button {
    border: none;
    background-color: rgba(255, 255, 255, 0);
 }
@@ -640,22 +641,26 @@ section .contain-add-card .button-add-card{
     font-size: 25px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
 }
-.contain-form-comentario .enviar-form-comentario input{
-    padding: 10px;
+.contain-form-comentario .enviar-form-comentario button{
     border: none;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     color: grey;
     font-weight: 600;
-     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
 }
 .contain-form-comentario .enviar-form-comentario{
     display: flex;
     justify-content: right;
     align-items: center;
-    
 }
 
 
+.body-painel-tarefa{
+    display: none;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
