@@ -7,47 +7,54 @@ import "controllers"
 
 function init(){
   fetchAndDisplayTasks(); 
-  configEventos();
+  initEventos();
 };
 
 
-function mostrarFormulario() {
+function mostrarNovaTarefa() {
   const acc = document.querySelector(".accordion");
   acc.style.display = "flex";
 }
 
-function abrirForm(){
+function abrirAccordionTarefa(){
   const painel = document.getElementById("painel");
   painel.style.display = "flex";
 }
 
-function fecharForm(){
-  painel.style.display = "none"
-  acc.style.display = "none"
+function fecharAccordionTarefa(){
+  painel.style.display = "none";
+  const acc = document.querySelector(".accordion");
+  acc.style.display = "none";
 }
 
-function AccToggle(TarefaItem) {
-    TarefaItem.find('.body-painel-tarefa').slideToggle(400);
+function accToggle(tarefaItem) {
+    tarefaItem.find('.body-painel-tarefa').slideToggle(400);
 }
 
-function configEventos(){
-  $('.contain-acordion-tarefa').on("click", (e)=>{
-    const TarefaItem = $(e.currentTarget).closest('.card-tarefa');
-    AccToggle(TarefaItem);
+function configTarefaEventos(novaTarefa){
+  $(novaTarefa).find('.accordion-tarefa').on("click", (e)=>{
+    const tarefaItem = $(e.currentTarget).closest('.card-tarefa');
+    accToggle(tarefaItem);
   });
 
-  $('#show-card-form').on ("click", mostrarFormulario);
-  $('#accordion').on ("click", abrirForm);
-  $('#closeForm').on ("click", fecharForm);
+}
+
+function initEventos(){
+
+  $('#mostrar-nova-tarefa').on ("click", mostrarNovaTarefa);
+  $('#accordion-nova-tarefa').on ("click", abrirAccordionTarefa);
+  $('#fechar-nova-tarefa').on ("click", fecharAccordionTarefa);
 
 }
+
 
 
 async function fetchAndDisplayTasks() {
   const tasksContainer = document.getElementById('contain-tarefas');
-  const Url = '/tarefas'; 
+  const Url = '/tarefas';
 
   if (!tasksContainer) {
+    console.error('O elemento container de tarefas #contain-tarefas não foi encontrado.');
     return;
   }
 
@@ -57,100 +64,50 @@ async function fetchAndDisplayTasks() {
       throw new Error(`Erro na rede: ${response.statusText}`);
     }
     const tasks = await response.json();
-    
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-    
-    tasksContainer.innerHTML = ''; 
-    
+
+    tasksContainer.innerHTML = '';
+
     if (tasks.length === 0) {
       tasksContainer.innerHTML = '<p>Nenhuma tarefa encontrada.</p>';
       return;
     }
-    
-    const tasksHtml = tasks.map(task => {
-      const comentariosHtml = (task.comentarios || []).map(comentario => `
-        <div class="card-comentario-value">
-          <div class="body-card-comentario">
-            <div class="conteudo-card">${comentario.conteudo}</div>
-          </div>
-          <div class="delete-comentario">
-            <i class="fa-solid fa-trash"></i>
-          </div>
-        </div>
-      `).join('');
 
-      return `
-      <div class="card-tarefa">
-        <div class="contain-acordion-tarefa">
-          <button class="accordion-tarefa" id="accordion-tarefa">
-            <div class="contain-angle">
-              <div class="angle"><i class="fa-solid fa-angle-right"></i></div>
-              <span>${task.nome}</span>
-            </div>
-            <span class="contain-edit-tarefa">
-              <a href="/tarefas/${task.id}/edit" class="edit-link"><i class="fa-solid fa-pencil"></i></a>
-            </span>
-          </button>
-        </div>
-        <div class="body-painel-tarefa">
-          <div class="painel-tarefa-comentario">
-            <div class="contain-values-task">
-              <div class="span-values-date">
-                <span>Inicio</span>
-                <div class="data-span"><p>${task.date_inicio || 'N/A'}</p></div>
-              </div>
-              <div class="span-values-date">
-                <span>Conclusão</span>
-                <div class="data-span"><p>${task.data_fim || 'N/A'}</p></div>
-              </div>
-            </div>
-            <div class="contain-values-custo">
-              <div class="span-values-custo">
-                <span> Custo Estimado</span>
-                <div class="icon"><i class="fa-solid fa-brazilian-real-sign"></i> ${task.custo || 0.00}</div> 
-              </div>
-              <div class="span-values-custo">
-                <span> Status da Tarefa </span> ${task.status || 'Não definido'}
-              </div>
-            </div>
-          </div>
+    tasks.forEach(task => {
+      const novaTarefa = $('#templates .card-tarefa').clone();
 
-          <div class="contain-comentarios" id="painel-comentarios">
-            <div class="card-nav-comentario"> <i class="fa-solid fa-comments"></i> Comentários </div>
-              <div class="painel-contain-comentario">
-                ${comentariosHtml}
-                <div class="contain-form-comentario">
-                  <form action="/tarefas/${task.id}/comentarios" method="post">
-                    <input type="hidden" name="authenticity_token" value="${csrfToken}">
-                    <textarea name="comentario[conteudo]" placeholder="Adicione um comentário..."></textarea>
-                    <div class="enviar-form-comentario">
-                      <button type="submit">
-                        <i class="fa-solid fa-envelope"></i>
-                        Enviar comentario
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      `;
-    }).join('');
-    
-    tasksContainer.innerHTML = tasksHtml;
+      novaTarefa.find('#titulo').text(task.nome); 
+      novaTarefa.find('.status-tarefa').text(task.status);
+      novaTarefa.find('.custo').text(task.custo); 
+      novaTarefa.find('.data_inicio').text(task.date_inicio); 
+      novaTarefa.find('.data_fim').text(task.data_fim); 
 
-    configEventos();
+
+     const containerComentarios = novaTarefa.find('.card-comentario-value');
+
+      containerComentarios.empty();
+
+      task.comentarios.forEach(comentario => {
+          
+     
+          const novoComentarioClone = $('#templates .body-card-comentario').clone();
+          
+          novoComentarioClone.find('.conteudo-card').text(comentario.conteudo);
+          containerComentarios.append(novoComentarioClone);
+      });
+
+      tasksContainer.append(novaTarefa[0]);
+
+      configTarefaEventos(novaTarefa);
+    });
+
 
   } catch (error) {
     console.error('Falha ao buscar tarefas:', error);
-    if(tasksContainer){
+    if (tasksContainer) {
       tasksContainer.innerHTML = '<p style="color: red;">Não foi possível carregar as tarefas.</p>';
     }
   }
 }
-
 
 document.addEventListener("turbo:load", () => {
   init();

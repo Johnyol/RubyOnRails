@@ -398,38 +398,35 @@ section .contain-add-card .button-add-card{
 
 /* ----------------- css dos cards que apresenta os valores  --------------- */
 
-
+.contain-acordion-tarefa{
+    display: flex;
+    align-items: center;
+    background: linear-gradient(to top, rgba(175, 175, 175, 0.562) , rgb(255, 255, 255));
+    margin-top: 20px;
+    border-radius: 5px;
+}
 
 .contain-acordion-tarefa .accordion-tarefa{
-    background: linear-gradient(to top, rgba(175, 175, 175, 0.562) , rgb(255, 255, 255));
     color:  #007bff;
     cursor: pointer;
     align-items: center;
-    width: 800px;
+    width: 750px;
     border: none;
     text-align: left;
-    outline: none;
-    border-radius: 5px;
     display: flex;
     gap: 20px;
     height: 60px;
     font-size: 25px;
     font-weight: 600;
-    margin-top: 20px;
-    justify-content: space-between;
   }
 
-  .accordion-tarefa .contain-angle{
-     align-items: center;
-     display: flex;
-     gap: 10px;
-   
-  }
+.accordion-tarefa .contain-angle{
+    align-items: center;
+    display: flex;
+    gap: 10px;
+}
 
-  .accordion-header{
-    text-decoration: none;
-    padding: 5px;
-  }
+
 .angle{
      border-right: 1px solid rgb(170, 170, 170);
      padding: 10px;
@@ -472,6 +469,7 @@ section .contain-add-card .button-add-card{
     padding: 10px;
     border-radius: 15px;
     margin-right: 10px;
+    font-size: 25px;
 }
 
 .contain-values-task{
@@ -586,6 +584,8 @@ section .contain-add-card .button-add-card{
     padding: 20px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .card-comentario-value .body-card-comentario {
