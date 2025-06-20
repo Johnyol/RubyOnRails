@@ -10,11 +10,14 @@ function init(){
   initEventos();
 };
 
+angular.module('meuApp', []).controller('MeuController', function($scope) {
 
-function mostrarNovaTarefa() {
-  const acc = document.querySelector(".accordion");
-  acc.style.display = "flex";
-}
+});
+
+// function mostrarNovaTarefa() {
+//   const acc = document.querySelector(".accordion");
+//   acc.style.display = "flex";
+// }
 
 function abrirAccordionTarefa(){
   const painel = document.getElementById("painel");

@@ -1,15 +1,15 @@
 <section>
-  <div class="contain-add-card">
-    <div class="button-add-card" >
+  <div class="contain-add-card" ng-app="meuApp" ng-controller="MeuController">
+    <div class="button-add-card">
       <div class="icon-plus">
         <i class="fa-solid fa-plus"></i>
       </div>
-      <button id="mostrar-nova-tarefa">Cadastrar Tarefa</button>
+      <button id="mostrar-nova-tarefa" ng-click="isDivVisible = !isDivVisible">Cadastrar Tarefa</button>
     </div>
   </div>
 
-  <div class="contain-grid-cards"> 
-    <div class="contain-acordion">
+  <div class="contain-grid-cards" > 
+    <div class="contain-acordion" ng-show="isDivVisible">
       <div class="accordion" id="accordion-nova-tarefa"> 
         <div class="contain-angle">  
           <div class="angle"> 
