@@ -6,35 +6,42 @@ import "controllers"
 
 angular.module('meuApp', []).controller('TarefaController', function($scope, $http) {
   function init(){
-    carregarTarefas();
+    $scope.listCtrl.buscar();
   };
 
-  var carregarTarefas = function() {
-    $http.get("http://localhost:3000/tarefas.json")
-      .then(
-        function(response) {
-          var tarefasBanco = response.data;
+  $scope.listCtrl = {
 
-          tarefasBanco.forEach(function(tarefa) {
-            tarefa.Aberta = false; // Todas começam fechadas
-          });
+  tarefas: [],
 
-          $scope.tarefas = tarefasBanco;
+  buscar: () => {
+   $http.get("http://localhost:3000/tarefas.json")
+    .then(
+      (response) => {
+        var tarefasBanco = response.data;
 
-          console.log($scope.tarefas);
-        },
-        function(error) {
-          console.error("Ocorreu um erro ao buscar as tarefas:", error);
-        }
-      );
-  };
+        tarefasBanco.forEach((tarefa) => {
+          tarefa.aberta = false; 
+        });
 
-  $scope.abrirTarefaItem = function(tarefa) {
-    tarefa.Aberta = !tarefa.Aberta;
-  };
+        $scope.listCtrl.tarefas = tarefasBanco;
+
+      },
+      (error) => {
+        console.error("Ocorreu um erro ao buscar as tarefas:", error);
+      }
+    );
+  },
+  }
+
+  $scope.itemCtrl = {
+    abrirTarefaItem: (tarefa)=> {
+      tarefa.aberta = !tarefa.aberta;
+    }
+  }
 
   $scope.formCtrl = {
     ativo: false,
+    novaTarefa: [], 
 
     open: ()=>{
       if($scope.formCtrl.ativo) {return};
@@ -44,7 +51,21 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
     close: ()=>{
       if(!$scope.formCtrl.ativo) {return};
       $scope.formCtrl.ativo = false
+    },
+
+    criarTarefa: ()=> {      
+      console.log($scope.formCtrl.novaTarefa);
+
+      $http.post("http://localhost:3000/tarefas.json", $scope.formCtrl.novaTarefa)
+        .then((response) => {
+          console.log("Tarefa criada com sucesso:", response.data);
+        },
+        (error) => {
+          console.error("Ocorreu um erro ao criar a tarefa:", error);
+        });
     }
+
+    
   }
 
   init();

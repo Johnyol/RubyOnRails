@@ -2,53 +2,30 @@ class TarefasController < ApplicationController
   before_action :set_tarefas, only: [ :index, :create, :update ]
 
 def index
-  respond_to do |format|
-    format.json { render json: @tarefas, include: :comentarios }
-  end
-end
-
-def new
-  @tarefa = Tarefa.new
-  respond_to do |format|
-    format.html do
-      render layout: false if turbo_frame_request?
-    end
-  end
-end
-
-def edit
-    @tarefa = Tarefa.find(params[:id])
-      redirect_to root_path
+    render json: @tarefas, include: :comentarios 
 end
 
 def create
   @tarefa = Tarefa.new(tarefa_params)
+
   if @tarefa.save
-      redirect_to root_path, notice: "Tarefa criada com sucesso."
+    render json: @tarefa, status: :created
   else
-    render :new, status: :unprocessable_entity
+    render json: { errors: @tarefa.errors.full_messages }, status: :unprocessable_entity
   end
+  
 end
 
 def update
-  @tarefa = Tarefa.find(params[:id])
   if @tarefa.update(tarefa_params)
-    redirect_to root_path, notice: "Tarefa atualizada com sucesso."
-
+    render json: @tarefa, status: :ok
   else
-    render :edit, status: :unprocessable_entity
+    render json: @tarefa.errors, status: :unprocessable_entity
   end
 end
 
-
 def destroy
-  @tarefa = Tarefa.find(params[:id])
   @tarefa.destroy
-
-  respond_to do |format|
-    format.html { redirect_to root_path, notice: "Tarefa excluída com sucesso." }
-    format.turbo_stream
-  end
 end
 
 private

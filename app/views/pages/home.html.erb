@@ -21,37 +21,41 @@
       </div>
 
       <div class="painel">
-        <%= form_with(model: @tarefa || Tarefa.new, local: true, html: { class: "body-painel" }) do |form| %>
+        <form class="body-painel" ng-submit="formCtrl.criarTarefa()">
           <div class="input-one">
-            <%= form.label :nome, "Nome da Tarefa:" %>
-            <%= form.text_field :nome, required: true %>
+            Nome da Tarefa
+            <input type="text" ng-model="formCtrl.novaTarefa.nome">
           </div>
           <div class="input-two"> 
             <div class="contain-itens">
-              <span><%= form.label :data_inicio, "Início" %></span>
+              <span>Início</span>
               <div class="input-calendar"> 
-                <%= form.date_field :date_inicio %>
+                <input type="date" ng-model="formCtrl.novaTarefa.date_inicio">
               </div>
             </div>
             <div class="contain-itens">
-              <span><%= form.label :data_fim, "Conclusão" %></span>
+              <span>Conclusão</span>
               <div class="input-calendar"> 
-                <%= form.date_field :data_fim %>
+                <input type="date" ng-model="formCtrl.novaTarefa.data_fim">
               </div>
             </div>
           </div>
 
           <div class="input-three">
             <div class="contain-select">
-              <span><%= form.label :custo, "Custo estimado (R$)" %></span>
+              <span>Custo estimado</span>
               <div class="icon-input">
                 <i class="fa-solid fa-brazilian-real-sign"></i>
-                <%= form.number_field :custo, step: 0.01 %>
+                <input type="number" ng-model="formCtrl.novaTarefa.custo">
               </div> 
             </div>
             <div class="contain-select" >
-              <span><%= form.label :status, "Status da Tarefa" %></span>
-              <%= form.select :status, ["Concluído", "Pendente", "Em andamento"] %>
+              <span>Status da Tarefa</span>
+              <select ng-model="formCtrl.novaTarefa.status">
+                <option>Pendente</option>
+                <option>Em andamento</option>
+                <option>Concluído</option>
+              </select>
             </div>
           </div>
 
@@ -62,32 +66,32 @@
             </button>
             <div class="span-save">
               <i class="fa-solid fa-clipboard-list"></i>
-              <%= form.submit "Salvar", class: "button-save" %>
-          </div>
-        <% end %>
-            <div class="span-delete">
-              <button class="delete-tarefa">
-                <i class="fa-solid fa-trash-can"></i><span>Excluir Tarefa</span>
-              </button> 
+              <input type="submit" class="button-save">
             </div>
-        </div>
+          </div>
+        </form>
+      <%#   <div class="span-delete">
+          <button class="delete-tarefa">
+            <i class="fa-solid fa-trash-can"></i><span>Excluir Tarefa</span>
+          </button> 
+        </div> %>
       </div>
     </div>
 
     <div class="contain-tarefas" id="contain-tarefas">
-      <div class="card-tarefa" ng-repeat="tarefa in tarefas">
-        <div class="contain-acordion-tarefa" ng-click="abrirTarefaItem(tarefa)">
+      <div class="card-tarefa" ng-repeat="tarefa in listCtrl.tarefas">
+        <div class="contain-acordion-tarefa" ng-click="itemCtrl.abrirTarefaItem(tarefa)">
           <div class="accordion-tarefa" id="accordion-tarefa">
             <div class="contain-angle">
               <div class="angle"><i class="fa-solid fa-angle-right"></i></div>
-              <span id="titulo">{{ tarefa.nome }}</span>
+              <span>{{ tarefa.nome }}</span>
             </div>
           </div>
           <span class="contain-edit-tarefa">
-            <a href="/tarefas/edit" class="edit-link"><i class="fa-solid fa-pencil"></i></a>
+            <a href="/tarefas/{{tarefa.id}}/edit" class="edit-link"><i class="fa-solid fa-pencil"></i></a>
           </span>
         </div>
-        <div class="body-painel-tarefa" ng-if="tarefa.Aberta">
+        <div class="body-painel-tarefa" ng-if="tarefa.aberta">
           <div class="painel-tarefa-comentario">
             <div class="contain-values-task">
               <div class="span-values-date">
@@ -115,23 +119,23 @@
           </div>
           <div class="contain-comentarios" id="painel-comentarios">
             <div class="card-nav-comentario"> <i class="fa-solid fa-comments"></i> Comentários </div>
-              <div class="painel-contain-comentario">
-                <div class="card-comentario-value">
-                  <div class="body-card-comentario" ng-repeat="comentario in tarefa.comentarios">
-                    <div class="conteudo-card">{{comentario.conteudo}} </div>
-                    <div class="delete-comentario"><i class="fa-solid fa-trash"></i></div>
-                  </div>
-                </div>
-                <div class="contain-form-comentario">
-                  <form action="/tarefas/${task.id}/comentarios" method="post">
-                    <input type="hidden" name="authenticity_token" value="${csrfToken}">
-                    <textarea name="comentario[conteudo]" placeholder="Adicione um comentário..."></textarea>
-                    <div class="enviar-form-comentario">
-                      <button type="submit"><i class="fa-solid fa-envelope"></i> Enviar comentario</button>
-                    </div>
-                  </form>
+            <div class="painel-contain-comentario">
+              <div class="card-comentario-value">
+                <div class="body-card-comentario" ng-repeat="comentario in tarefa.comentarios">
+                  <div class="conteudo-card">{{comentario.conteudo}} </div>
+                  <div class="delete-comentario"><i class="fa-solid fa-trash"></i></div>
                 </div>
               </div>
+              <div class="contain-form-comentario">
+                <form action="/tarefas/comentarios" method="post">
+                  <input type="hidden" name="authenticity_token" value="${csrfToken}">
+                  <textarea name="comentario[conteudo]" placeholder="Adicione um comentário..."></textarea>
+                  <div class="enviar-form-comentario">
+                    <button type="submit"><i class="fa-solid fa-envelope"></i> Enviar comentario</button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>
