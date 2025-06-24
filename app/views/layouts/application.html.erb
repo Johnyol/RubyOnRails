@@ -12,9 +12,9 @@
     <script src="https://kit.fontawesome.com/7ec12fe446.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
   </head>
-  <body>
+  <body ng-app="meuApp">
     <%= render 'layouts/topnavbar' %>
-    <main>
+    <main ng-controller="TarefaController">
       <%= yield %>
     </main>
   </body>
