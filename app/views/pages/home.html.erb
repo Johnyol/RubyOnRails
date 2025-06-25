@@ -21,7 +21,7 @@
       </div>
 
       <div class="painel">
-        <form class="body-painel" ng-submit="formCtrl.criarTarefa()">
+        <form class="body-painel" ng-submit="formCtrl.salvarTarefa()">
           <div class="input-one">
             Nome da Tarefa
             <input type="text" ng-model="formCtrl.novaTarefa.nome">
@@ -46,7 +46,7 @@
               <span>Custo estimado</span>
               <div class="icon-input">
                 <i class="fa-solid fa-brazilian-real-sign"></i>
-                <input type="number" ng-model="formCtrl.novaTarefa.custo">
+                <input type="" ng-model="formCtrl.novaTarefa.custo">
               </div> 
             </div>
             <div class="contain-select" >
@@ -68,27 +68,27 @@
               <i class="fa-solid fa-clipboard-list"></i>
               <input type="submit" class="button-save">
             </div>
+            <div class="span-delete" ng-if="formCtrl.novaTarefa.id">
+              <button class="delete-tarefa" type="button"  ng-click="formCtrl.excluirTarefa()">
+                <i class="fa-solid fa-trash-can"></i><span>Excluir Tarefa</span>
+              </button> 
+            </div>
           </div>
         </form>
-      <%#   <div class="span-delete">
-          <button class="delete-tarefa">
-            <i class="fa-solid fa-trash-can"></i><span>Excluir Tarefa</span>
-          </button> 
-        </div> %>
       </div>
     </div>
 
     <div class="contain-tarefas" id="contain-tarefas">
       <div class="card-tarefa" ng-repeat="tarefa in listCtrl.tarefas">
-        <div class="contain-acordion-tarefa" ng-click="itemCtrl.abrirTarefaItem(tarefa)">
-          <div class="accordion-tarefa" id="accordion-tarefa">
+        <div class="contain-acordion-tarefa">
+          <div class="accordion-tarefa" ng-click="itemCtrl.abrirTarefaItem(tarefa)">
             <div class="contain-angle">
               <div class="angle"><i class="fa-solid fa-angle-right"></i></div>
               <span>{{ tarefa.nome }}</span>
             </div>
           </div>
-          <span class="contain-edit-tarefa">
-            <a href="/tarefas/{{tarefa.id}}/edit" class="edit-link"><i class="fa-solid fa-pencil"></i></a>
+          <span class="contain-edit-tarefa" >
+            <div ng-if="tarefa.id !== formCtrl.novaTarefa.id" class="edit-link" ng-click="formCtrl.editarTarefa(tarefa)"><i class="fa-solid fa-pencil"></i></div>
           </span>
         </div>
         <div class="body-painel-tarefa" ng-if="tarefa.aberta">

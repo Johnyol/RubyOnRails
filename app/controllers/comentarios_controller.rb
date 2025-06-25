@@ -1,49 +1,28 @@
 class ComentariosController < ApplicationController
   include ActionView::RecordIdentifier
+  protect_from_forgery with: :null_session
 
   def create
-    @tarefa = Tarefa.find(params[:tarefa_id])
-    @comentario = @tarefa.comentarios.build(comentario_params)
+ 
+    tarefa = Tarefa.find(params[:tarefa_id])
 
-    respond_to do |format|
-      if @comentario.save
-        format.turbo_stream do
-          render turbo_stream: [
-            turbo_stream.append("comentarios_tarefa_#{@tarefa.id}",
-                                partial: "comentarios/comentario",
-                                locals: { comentario: @comentario }),
+    comentario = tarefa.comentarios.build(comentario_params)
 
-            turbo_stream.replace(dom_id(@tarefa, "new_comment_form"),
-                                  partial: "comentarios/form",
-                                  locals: { tarefa: @tarefa })
-          ]
-        end
-        format.html { redirect_to root_path, notice: "Comentário salvo com sucesso." }
-      else
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            dom_id(@tarefa, "new_comment_form"),
-            partial: "comentarios/form",
-            locals: { tarefa: @tarefa, comentario: @comentario }
-          ), status: :unprocessable_entity
-        end
-        format.html { redirect_to root_path, alert: "Erro ao salvar comentário." }
-      end
+    if comentario.save
+      render json: comentario, status: :created
+    else
+      render json: { errors: comentario.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @tarefa = Tarefa.find(params[:tarefa_id])
-    @comentario = @tarefa.comentarios.find(params[:id])
-    @comentario.destroy
+    tarefa = Tarefa.find(params[:tarefa_id])
+    comentario = tarefa.comentarios.find(params[:id])
+    comentario.destroy
 
-    respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.remove(@comentario) }
-
-      format.html { redirect_to @tarefa.projeto, notice: "Comentário excluído com sucesso." }
-    end
+    head :no_content
   end
-
+  
   private
 
   def comentario_params

@@ -1,41 +1,40 @@
 class TarefasController < ApplicationController
-  before_action :set_tarefas, only: [ :index, :create, :update ]
+  protect_from_forgery with: :null_session
 
-def index
-    render json: @tarefas, include: :comentarios 
-end
-
-def create
-  @tarefa = Tarefa.new(tarefa_params)
-
-  if @tarefa.save
-    render json: @tarefa, status: :created
-  else
-    render json: { errors: @tarefa.errors.full_messages }, status: :unprocessable_entity
+  def index
+    tarefas = Tarefa.includes(:comentarios).order(created_at: :desc)
+    render json: tarefas, include: :comentarios 
   end
-  
-end
 
-def update
-  if @tarefa.update(tarefa_params)
-    render json: @tarefa, status: :ok
-  else
-    render json: @tarefa.errors, status: :unprocessable_entity
+  def create
+    tarefa = Tarefa.new(tarefa_params)
+
+    if tarefa.save
+      render json: tarefa, status: :created
+    else
+      render json: { errors: tarefa.errors.full_messages }, status: :unprocessable_entity
+    end
   end
-end
 
-def destroy
-  @tarefa.destroy
-end
+  def update
+    tarefa = Tarefa.find(params[:id])
 
-private
+    if tarefa.update(tarefa_params)
+      render json: tarefa, status: :ok
+    else
+      render json: tarefa.errors, status: :unprocessable_entity
+    end
+  end
 
-def tarefa_params
-  params.require(:tarefa).permit(:nome, :date_inicio, :data_fim, :custo, :status)
-end
+  def destroy
+    tarefa = Tarefa.find(params[:id])
+    tarefa.destroy
+  end
 
-def set_tarefas
-  @tarefas = Tarefa.includes(:comentarios).order(created_at: :desc)
-end
+  private
+
+  def tarefa_params
+    params.require(:tarefa).permit(:nome, :date_inicio, :data_fim, :custo, :status)
+  end
 
 end
