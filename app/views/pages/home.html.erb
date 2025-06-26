@@ -123,13 +123,12 @@
               <div class="card-comentario-value">
                 <div class="body-card-comentario" ng-repeat="comentario in tarefa.comentarios">
                   <div class="conteudo-card">{{comentario.conteudo}} </div>
-                  <div class="delete-comentario"><i class="fa-solid fa-trash"></i></div>
+                  <div class="delete-comentario" ng-click="formComentCtrl.excluirComentario(tarefa, comentario)"><i class="fa-solid fa-trash"></i></div>
                 </div>
               </div>
               <div class="contain-form-comentario">
-                <form action="/tarefas/comentarios" method="post">
-                  <input type="hidden" name="authenticity_token" value="${csrfToken}">
-                  <textarea name="comentario[conteudo]" placeholder="Adicione um comentário..."></textarea>
+                <form ng-submit="formComentCtrl.criarComentario(tarefa)">
+                  <textarea ng-model="tarefa.novoComentario.conteudo" placeholder="Adicione um comentário..."></textarea>
                   <div class="enviar-form-comentario">
                     <button type="submit"><i class="fa-solid fa-envelope"></i> Enviar comentario</button>
                   </div>

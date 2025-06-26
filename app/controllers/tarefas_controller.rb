@@ -6,23 +6,18 @@ class TarefasController < ApplicationController
     render json: tarefas, include: :comentarios 
   end
 
-  def create
-    tarefa = Tarefa.new(tarefa_params)
+  def save
+ 
+    tarefa = Tarefa.find_or_initialize_by(id: tarefa_params[:id])
+
+    tarefa.assign_attributes(tarefa_params)
 
     if tarefa.save
-      render json: tarefa, status: :created
+      
+      status = tarefa.previously_new_record? ? :created : :ok
+      render json: tarefa, status: status
     else
       render json: { errors: tarefa.errors.full_messages }, status: :unprocessable_entity
-    end
-  end
-
-  def update
-    tarefa = Tarefa.find(params[:id])
-
-    if tarefa.update(tarefa_params)
-      render json: tarefa, status: :ok
-    else
-      render json: tarefa.errors, status: :unprocessable_entity
     end
   end
 
@@ -34,7 +29,7 @@ class TarefasController < ApplicationController
   private
 
   def tarefa_params
-    params.require(:tarefa).permit(:nome, :date_inicio, :data_fim, :custo, :status)
+    params.require(:tarefa).permit(:id, :nome, :date_inicio, :data_fim, :custo, :status)
   end
 
 end
