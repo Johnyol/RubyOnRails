@@ -3,9 +3,7 @@ class ComentariosController < ApplicationController
   protect_from_forgery with: :null_session
 
   def create
- 
     tarefa = Tarefa.find(params[:tarefa_id])
-
     comentario = tarefa.comentarios.build(comentario_params)
 
     if comentario.save

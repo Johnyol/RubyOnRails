@@ -3,19 +3,16 @@ class TarefasController < ApplicationController
 
   def index
     tarefas = Tarefa.includes(:comentarios).order(created_at: :desc)
-    render json: tarefas, include: :comentarios 
+    render json: tarefas.to_frontend_obj, include: :comentarios 
   end
 
   def save
- 
     tarefa = Tarefa.find_or_initialize_by(id: tarefa_params[:id])
-
     tarefa.assign_attributes(tarefa_params)
 
     if tarefa.save
-      
       status = tarefa.previously_new_record? ? :created : :ok
-      render json: tarefa, status: status
+      render json: tarefa.to_frontend_obj, status: status
     else
       render json: { errors: tarefa.errors.full_messages }, status: :unprocessable_entity
     end
@@ -24,6 +21,7 @@ class TarefasController < ApplicationController
   def destroy
     tarefa = Tarefa.find(params[:id])
     tarefa.destroy
+    render json: { tarefa: tarefa.id }, status: :ok
   end
 
   private
