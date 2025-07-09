@@ -7,7 +7,7 @@ class ComentariosController < ApplicationController
     comentario = tarefa.comentarios.build(comentario_params)
 
     if comentario.save
-      render json: comentario, status: :created
+      render json: {comentario: comentario.to_frontend_obj}, status: :created
     else
       render json: { errors: comentario.errors.full_messages }, status: :unprocessable_entity
     end
@@ -18,7 +18,7 @@ class ComentariosController < ApplicationController
     comentario = tarefa.comentarios.find(params[:id])
     comentario.destroy
 
-    head :no_content
+    render json: {comentario_id: {id: comentario.id}}, status: :ok
   end
   
   private

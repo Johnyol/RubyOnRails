@@ -26,7 +26,7 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
      $http.get("/tarefas.json")
       .then(
         (response) => {
-          var tarefasBanco = response.data;
+          var tarefasBanco = response.data.lista;
 
           tarefasBanco.forEach((tarefa) => {
             tarefa.aberta = false; 
@@ -64,22 +64,20 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
 
     editarTarefa: (tarefa)=>{
       const tarefaParaEditar = angular.copy(tarefa);
-
       tarefaParaEditar.date_inicio = converterStringParaDataLocal(tarefaParaEditar.date_inicio);
       tarefaParaEditar.data_fim = converterStringParaDataLocal(tarefaParaEditar.data_fim);
 
       $scope.formCtrl.novaTarefa = tarefaParaEditar;
 
       $scope.formCtrl.open();
-      console.log($scope.formCtrl.novaTarefa);
     },
 
     salvarTarefa: ()=> { 
       var tarefaParaSalvar = $scope.formCtrl.novaTarefa;
-    
+  
       $http.post("/tarefas/save.json", { tarefa: tarefaParaSalvar })
       .then((response) => {
-        console.log("Tarefa atualizada com sucesso:", response.data);
+        console.log("Tarefa atualizada com sucesso");
         $scope.listCtrl.buscar();
         $scope.formCtrl.close();
       },
@@ -120,9 +118,9 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
 
       $http.post(`/tarefas/${tarefa.id}/comentarios.json`, $scope.formComentCtrl.comentarioTarefa)
         .then((response) => {
-          console.log("Comentário criado com sucesso:", response.data);
+          console.log("Comentário criado com sucesso");
           
-          tarefa.comentarios.push(response.data);
+          tarefa.comentarios.push(response.data.comentario);
           
           tarefa.novoComentario = {};
 

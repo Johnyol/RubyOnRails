@@ -3,7 +3,8 @@ class TarefasController < ApplicationController
 
   def index
     tarefas = Tarefa.includes(:comentarios).order(created_at: :desc)
-    render json: tarefas.to_frontend_obj, include: :comentarios 
+    tarefas = tarefas.map{ |tarefa| tarefa.to_frontend_obj }
+    render json: { lista: tarefas }, include: :comentarios 
   end
 
   def save
@@ -12,7 +13,7 @@ class TarefasController < ApplicationController
 
     if tarefa.save
       status = tarefa.previously_new_record? ? :created : :ok
-      render json: tarefa.to_frontend_obj, status: status
+      render json: { tarefa: tarefa.to_frontend_obj}, status: :ok
     else
       render json: { errors: tarefa.errors.full_messages }, status: :unprocessable_entity
     end
@@ -21,7 +22,7 @@ class TarefasController < ApplicationController
   def destroy
     tarefa = Tarefa.find(params[:id])
     tarefa.destroy
-    render json: { tarefa: tarefa.id }, status: :ok
+    render json: { tarefa_id: {id: tarefa.id} }, status: :ok
   end
 
   private
