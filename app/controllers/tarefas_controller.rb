@@ -2,9 +2,9 @@ class TarefasController < ApplicationController
   protect_from_forgery with: :null_session
 
   def index
-    tarefas = Tarefa.includes(:comentarios).order(created_at: :desc)
+    tarefas = Tarefa.buscar_por_nome(params[:q]).includes(:comentarios).order(created_at: :desc)
     tarefas = tarefas.map{ |tarefa| tarefa.to_frontend_obj }
-    render json: { lista: tarefas }, include: :comentarios 
+    render json: { lista: tarefas }, include: :comentarios
   end
 
   def save

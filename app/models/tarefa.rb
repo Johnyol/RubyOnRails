@@ -5,6 +5,11 @@ class Tarefa < ApplicationRecord
   validates :date_inicio, :data_fim, presence: true
   validate :data_fim_deve_ser_maior_ou_igual_a_data_inicio
 
+
+  scope :buscar_por_nome, ->(termo) {
+    where("LOWER(nome) LIKE ?", "%#{termo.downcase}%") if termo.present?
+  }
+
   def slim_obj
     {
       id: self.id,

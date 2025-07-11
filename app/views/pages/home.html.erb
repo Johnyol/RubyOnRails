@@ -15,7 +15,7 @@
             <div class="angle"> 
               <i class="fa-solid fa-angle-right" id="angle"> </i> 
             </div>
-            <span>Nova Tarefa</span>
+            <span ng-bind="tarefa.id === formCtrl.novaTarefa.id ? 'Nova Tarefa' : formCtrl.novaTarefa.nome"></span>
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@
               <span>Custo estimado</span>
               <div class="icon-input">
                 <i class="fa-solid fa-brazilian-real-sign"></i>
-                <input type="" ng-model="formCtrl.novaTarefa.custo">
+                <input ng-model="formCtrl.novaTarefa.custo">
               </div> 
             </div>
             <div class="contain-select" >
@@ -68,11 +68,6 @@
               <i class="fa-solid fa-clipboard-list"></i>
               <input type="submit" class="button-save">
             </div>
-            <div class="span-delete" ng-if="formCtrl.novaTarefa.id">
-              <button class="delete-tarefa" type="button"  ng-click="formCtrl.excluirTarefa()">
-                <i class="fa-solid fa-trash-can"></i><span>Excluir Tarefa</span>
-              </button> 
-            </div>
           </div>
         </form>
       </div>
@@ -87,9 +82,14 @@
               <span>{{ tarefa.nome }}</span>
             </div>
           </div>
-          <span class="contain-edit-tarefa" >
-            <div ng-if="tarefa.id !== formCtrl.novaTarefa.id" class="edit-link" ng-click="formCtrl.editarTarefa(tarefa)"><i class="fa-solid fa-pencil"></i></div>
-          </span>
+          <div class="contain-buttons-tarefa">
+            <div class="contain-delete-tarefa" ng-click="formCtrl.excluirTarefa(tarefa)">
+              <div><i class="fa-solid fa-trash-can"></i></div>
+            </div> 
+            <div class="contain-edit-tarefa">
+              <div ng-if="tarefa.id !== formCtrl.novaTarefa.id" class="edit-link" ng-click="formCtrl.editarTarefa(tarefa)"><i class="fa-solid fa-pencil"></i></div>
+            </div>
+          </div>
         </div>
         <div class="body-painel-tarefa" ng-if="tarefa.aberta">
           <div class="painel-tarefa-comentario">
@@ -108,7 +108,7 @@
                 <span> Custo Estimado</span>
                 <div class="icon">
                   <i class="fa-solid fa-brazilian-real-sign"></i>
-                  <div class="custo">{{tarefa.custo}}</div>
+                  {{tarefa.custo}}
                 </div> 
               </div>
               <div class="span-values-custo" >
@@ -130,7 +130,10 @@
                 <form ng-submit="formComentCtrl.criarComentario(tarefa)">
                   <textarea ng-model="tarefa.novoComentario.conteudo" placeholder="Adicione um comentário..."></textarea>
                   <div class="enviar-form-comentario">
-                    <button type="submit"><i class="fa-solid fa-envelope"></i> Enviar comentario</button>
+                    <div class="botao-comentario">
+                      <i class="fa-solid fa-envelope"></i>
+                      <button type="submit"> Enviar comentario</button>
+                    </div>
                   </div>
                 </form>
               </div>

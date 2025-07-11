@@ -168,20 +168,24 @@ section .contain-add-card .button-add-card{
   }
 
 
-  .accordion .contain-angle{
-     align-items: center;
-     display: flex;
-     gap: 10px;
-  }
+.accordion .contain-angle{
+    align-items: center;
+    display: flex;
+    gap: 10px;
+}
 
 .angle{
-     border-right: 1px solid rgb(170, 170, 170);
-     padding: 10px;
-
+    border-right: 1px solid rgb(170, 170, 170);
+    padding: 10px;
+    height: 60px;
+    width:50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
   .contain-acordion .accordion i{
-    font-size: 25px; 
+    font-size: 30px; 
     transition: all ease-in-out 0.20s;
   }
 
@@ -201,7 +205,7 @@ section .contain-add-card .button-add-card{
     flex-direction: column;
     padding: 40px;
     gap: 50px;
-    width: 800px;
+    width: 795px;
 }
 
 .painel .body-painel .input-one{
@@ -320,12 +324,12 @@ section .contain-add-card .button-add-card{
     justify-content: right;
     align-items: center;
     gap: 30px;
-    padding: 50px;
+    padding: 30px;
 }
 
 .contain-buttons button{
     color: rgb(63, 63, 63);
-    border: 1px solid rgb(235, 235, 235);
+    border: none;
     background-color: rgb(207, 207, 255);
     display: flex;
     width: 120px;
@@ -352,7 +356,6 @@ section .contain-add-card .button-add-card{
 .contain-buttons .span-save{
     border: none;
     color: rgb(63, 63, 63);
-    border: 1px solid rgb(235, 235, 235);
     background-color: rgb(207, 207, 255);
     display: flex;
     width: 120px;
@@ -361,8 +364,6 @@ section .contain-add-card .button-add-card{
     cursor: pointer;
     border-radius: 5px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
-    padding: 0;
-    margin: 0;
 }
 
 .contain-buttons .span-save .button-save{
@@ -386,15 +387,6 @@ section .contain-add-card .button-add-card{
     border: 1px solid #007bff;
 }
 
-.span-delete i{
-    background-color: red;
-    color: white;
-    padding: 10px;
-    font-size: 25px;
-    border-top-left-radius: 5px;
-    border-end-start-radius: 5px;
-    border: 1px solid rgb(255, 0, 0);
-}
 
 /* ----------------- css dos cards que apresenta os valores  --------------- */
 
@@ -410,7 +402,7 @@ section .contain-add-card .button-add-card{
     color:  #007bff;
     cursor: pointer;
     align-items: center;
-    width: 750px;
+    width: 680px;
     border: none;
     text-align: left;
     display: flex;
@@ -428,18 +420,17 @@ section .contain-add-card .button-add-card{
 
 
 .angle{
-     border-right: 1px solid rgb(170, 170, 170);
-     padding: 10px;
-   
+    border-right: 1px solid rgb(170, 170, 170);
+    height: 60px;
+    width:50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-  .contain-acordion .accordion i{
-    font-size: 25px; 
+.contain-angle i{
+    font-size: 30px; 
     transition: all ease-in-out 0.20s;
-  }
-
-.contain-angle .title-data-tarefa{
-    text-decoration: none;
 }
 
 .contain-tarefas{
@@ -447,8 +438,6 @@ section .contain-add-card .button-add-card{
    flex-direction: column;
    align-items:center ;   
 }
-
-
 
 .contain-tarefas .painel-tarefa-comentario{
     display:flex;
@@ -461,15 +450,47 @@ section .contain-add-card .button-add-card{
     justify-content: right;
 }
 
+.contain-buttons-tarefa{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
 
+.contain-delete-tarefa i{
+    color: red;
+    background-color: rgb(224, 224, 224);
+    padding:10px;
+    border-radius: 15px;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+
+.contain-delete-tarefa :hover{
+    transform: scale(1.04);
+}
+
+.contain-edit-tarefa{
+    width: 55px;
+}
+
+.contain-edit-tarefa :hover{
+    transform: scale(1.04);
+}
 
 .edit-link i{
     color: rgb(255, 208, 0);
     background-color: rgb(224, 224, 224);
     padding: 10px;
     border-radius: 15px;
-    margin-right: 10px;
     font-size: 25px;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .contain-values-task{
@@ -580,34 +601,42 @@ section .contain-add-card .button-add-card{
 }
 
 .card-comentario-value{
-    width: 100%;
+    width: 550px;
     padding: 20px;
+    gap: 20px;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    align-items: center;
 }
 
 .card-comentario-value .body-card-comentario {
-    width: 550px;
     gap: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
     border-bottom: 2px solid rgb(205, 205, 205);
+    width: 500px;
 }
+
+.conteudo-card{
+    width: 450px;
+    white-space: break-spaces;
+ }
 
 .body-card-comentario .delete-comentario {
     display: flex;
-    justify-content: right;
     padding: 5px;
+    width: 10px;
+}
+
+.delete-comentario :hover{
+    transform: scale(1.09);
 }
 
 .body-card-comentario .delete-comentario i{
     color: red;
 }
 
-.enviar-form-comentario button {
-   border: none;
-   background-color: rgba(255, 255, 255, 0);
-}
 .delete-comentario i{
     background-color: #e4e4e8;
     border-radius: 5px;
@@ -635,28 +664,36 @@ section .contain-add-card .button-add-card{
 }
 
 .contain-form-comentario .enviar-form-comentario i{
-    padding: 10px;
+    padding:8px;
     color: white;
     background-color: #007bff;
     font-size: 25px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
+    border-radius: 10px 0 0 10px;
 }
-.contain-form-comentario .enviar-form-comentario button{
+.contain-form-comentario .enviar-form-comentario .botao-comentario{
     border: none;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
     color: grey;
     font-weight: 600;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+.botao-comentario button{
+    border: none;
+    color: grey;
+    font-weight: 600;
+    height: 39px;
+    border-radius: 0 10px 10px 0;
+}
+
 .contain-form-comentario .enviar-form-comentario{
     display: flex;
     justify-content: right;
     align-items: center;
 }
-
 
 .body-painel-tarefa{
     display: flex;

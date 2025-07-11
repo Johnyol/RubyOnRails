@@ -13,9 +13,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
   </head>
   <body ng-app="meuApp">
-    <%= render 'layouts/topnavbar' %>
-    <main ng-controller="TarefaController">
-      <%= yield %>
+    <main ng-controller="TarefaController">    
+      <%= render 'layouts/topnavbar' %>
+      <main>
+        <%= yield %>
+      </main>
     </main>
   </body>
 </html>

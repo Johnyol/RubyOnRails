@@ -19,27 +19,32 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
   }
 
   $scope.listCtrl = {
-
     tarefas: [],
 
-    buscar: () => {
-     $http.get("/tarefas.json")
-      .then(
-        (response) => {
-          var tarefasBanco = response.data.lista;
-
-          tarefasBanco.forEach((tarefa) => {
-            tarefa.aberta = false; 
-          });
-
-          $scope.listCtrl.tarefas = tarefasBanco;
-        },
-        (error) => {
-          console.error("Ocorreu um erro ao buscar as tarefas:", error);
+    buscar: (termoBusca) => {
+      const config = {
+        params: {
+          q: termoBusca
         }
-      );
+      };
+
+      $http.get("/tarefas.json", config)
+        .then(
+          (response) => {
+            var tarefasBanco = response.data.lista;
+
+            tarefasBanco.forEach((tarefa) => {
+              tarefa.aberta = false;
+            });
+
+            $scope.listCtrl.tarefas = tarefasBanco;
+          },
+          (error) => {
+            console.error("Ocorreu um erro ao buscar as tarefas:", error);
+          }
+        );
     },
-  }
+  };
 
   $scope.itemCtrl = {
     abrirTarefaItem: (tarefa)=> {
@@ -86,9 +91,8 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
       });
     },
 
-    excluirTarefa: ()=>{
-      var idTarefa = $scope.formCtrl.novaTarefa.id;
-      $http.delete("/tarefas/" + idTarefa + ".json")
+    excluirTarefa: (tarefa)=>{
+      $http.delete("/tarefas/" + tarefa.id + ".json")
       .then(
         (response) => {
           console.log("Tarefa excluída com sucesso");
