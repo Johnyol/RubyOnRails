@@ -72,6 +72,7 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
       tarefaParaEditar.date_inicio = converterStringParaDataLocal(tarefaParaEditar.date_inicio);
       tarefaParaEditar.data_fim = converterStringParaDataLocal(tarefaParaEditar.data_fim);
 
+      $scope.formCtrl.nomeTarefaEditar = angular.copy(tarefaParaEditar.nome);
       $scope.formCtrl.novaTarefa = tarefaParaEditar;
 
       $scope.formCtrl.open();
@@ -90,6 +91,8 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
         console.error("Ocorreu um erro ao criar a tarefa:", error);
       });
     },
+
+
 
     excluirTarefa: (tarefa)=>{
       $http.delete("/tarefas/" + tarefa.id + ".json")

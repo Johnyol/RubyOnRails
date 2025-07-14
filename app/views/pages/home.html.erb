@@ -83,11 +83,24 @@
             </div>
           </div>
           <div class="contain-buttons-tarefa">
-            <div class="contain-delete-tarefa" ng-click="formCtrl.excluirTarefa(tarefa)">
+            <div class="contain-confirm-tarefa" ng-if="tarefa.confirmandoExclusao">
+              <div class="confirm-body">
+                <div class="contain-confirm-titulo">
+                  Deseja exlcluir tarefa?
+                </div>
+                <div class="contain-confirm-btn">
+                 <button class="btn-confirmar" ng-click="formCtrl.excluirTarefa(tarefa)">Sim</button>
+                 <button class="btn-cancelar" ng-click="tarefa.confirmandoExclusao = false">Não</button>
+                </div>
+              </div>
+            </div>
+            <div class="contain-delete-tarefa" ng-click="tarefa.confirmandoExclusao = true">
               <div><i class="fa-solid fa-trash-can"></i></div>
-            </div> 
+            </div>
             <div class="contain-edit-tarefa">
-              <div ng-if="tarefa.id !== formCtrl.novaTarefa.id" class="edit-link" ng-click="formCtrl.editarTarefa(tarefa)"><i class="fa-solid fa-pencil"></i></div>
+              <div ng-if="tarefa.id !== formCtrl.novaTarefa.id" class="edit-link" ng-click="formCtrl.editarTarefa(tarefa)">
+                <i class="fa-solid fa-pencil"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -144,4 +157,3 @@
     </div>
   </div>
 </section>
-

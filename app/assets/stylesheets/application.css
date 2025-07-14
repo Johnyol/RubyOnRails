@@ -396,6 +396,7 @@ section .contain-add-card .button-add-card{
     background: linear-gradient(to top, rgba(175, 175, 175, 0.562) , rgb(255, 255, 255));
     margin-top: 20px;
     border-radius: 5px;
+    z-index: 1;
 }
 
 .contain-acordion-tarefa .accordion-tarefa{
@@ -645,6 +646,51 @@ section .contain-add-card .button-add-card{
     border: 1px solid #b7b7b7;
 }
 
+.contain-confirm-tarefa {
+  display: flex;
+  align-items: center;
+  position:absolute;
+  z-index: 5;
+  margin-bottom: 145px;
+  gap: 5px; 
+  background: #fc919a;
+  padding: 10px;
+  border-radius: 10px;
+  color: black;
+  font-weight: 600;
+}
+
+.confirm-body{
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.contain-confirm-tarefa, .contain-confirm-btn{
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    gap: 5px;
+}
+
+.contain-confirm-tarefa button {
+  border: 1px solid #ccc;
+  padding: 5px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-confirmar {
+  background-color: rgb(58, 179, 58); 
+  color: black;
+  border-color: #d43f3a;
+}
+
+.btn-cancelar {
+  background-color: rgb(218, 55, 55); 
+  color: black;
+  border-color: #eea236;
+}
 
 .contain-form-comentario form{
     padding: 30px;
