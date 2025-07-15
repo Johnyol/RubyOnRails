@@ -4,44 +4,11 @@ html > body {
 }
 
 /* ----------------- css da navbar --------------- */
+
 nav{
     padding: 15px !important;
     background: linear-gradient(to top,  rgb(8, 105, 216) , rgb(65, 134, 212));
     border-bottom: 3px solid black;
-}
-
-nav .Icons-infos-caret {
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-nav .Icons-infos-caret input{
-    outline: none !important;
-    border-top-right-radius: 0px !important;
-    border-end-end-radius: 0px !important;
-    height: 60px;
-}
-
-nav .Icons-infos-caret .contain-caret{
-    background-color:  rgb(8, 105, 216);
-    border-top-right-radius: 20px;
-    border-end-end-radius: 20px;
-    border: solid white 1px;
-
-}
-
-nav .Icons-infos-caret .contain-caret i{
-    font-size: 39px;
-    padding: 10px;
-}
-
-nav .Icons-infos-caret .contain-square i{
-     color: white;
-    font-size: 65px;
-    display: flex;
-    margin-right: 5px;
 }
 
 nav .logo{
@@ -100,17 +67,26 @@ section{
     padding: 20px;
 }
 
-section .contain-add-card{
+.contain-grid-cards{
     display: flex;
-    justify-content: right;
+    flex-direction: column;
     align-items: center;
+}
+/* ----------------- css do card de cadastro de tarefa --------------- */
+
+.contain-add-card{
+    display: flex;
+    align-items: center;
+    justify-content: left;
     padding: 10px;
+    gap: 10px;
 }
 
-section .contain-add-card .button-add-card{
+.contain-add-card .button-add-card{
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 300px;
 }
 
 .button-add-card a{
@@ -118,34 +94,48 @@ section .contain-add-card .button-add-card{
     color: black;
 }
 
-/* ----------------- css do card de cadastro de tarefa --------------- */
-
 .contain-add-card .button-add-card button{
     font-size: 20px;
-    font-weight: 550;
-    border: 1px solid rgba(0, 0, 0, 0.541);
+    font-weight: 530;
     padding: 15px;
     background-color: white;
-    border-top-right-radius: 10px;
-    border-end-end-radius: 10px;
+    border-radius: 0 10px 10px 0;
+    border: none;
 }
 
  .contain-add-card .button-add-card .icon-plus{
-  background-color:  rgb(8, 105, 216);
-  padding: 13px;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+    background-color: rgb(8, 105, 216);
+    padding: 11px;
+    border-radius: 10px 0 0 10px;
 }
 
 .contain-add-card .button-add-card .icon-plus i{
-  color: white;
-  font-size: 35px;
+    color: white;
+    font-size: 35px;
 }
 
-.contain-grid-cards{
+.contain-search{
     display: flex;
-    flex-direction: column;
     align-items: center;
+    width: 350px;
+    height: 60px;
+    padding: 5px;
+    justify-content: space-around;
+    gap: 5px;
+}
+
+.contain-search input{
+    height: 55px;
+}
+
+.contain-search .icon-search{
+    font-size: 25px;
+    background-color: rgb(8, 105, 216);
+    color: white;
+    padding: 8px;
+    border-radius:10px;
+    border: none;
+    width: 50px;
 }
 
 .accordion{
@@ -165,7 +155,7 @@ section .contain-add-card .button-add-card{
     font-weight: 600;
     margin-top: 20px;
     justify-content: space-between;
-  }
+}
 
 
 .accordion .contain-angle{
@@ -458,6 +448,10 @@ section .contain-add-card .button-add-card{
     gap: 20px;
 }
 
+.contain-delete-tarefa{
+    width: 55px;
+}
+
 .contain-delete-tarefa i{
     color: red;
     background-color: rgb(224, 224, 224);
@@ -553,11 +547,11 @@ section .contain-add-card .button-add-card{
 }
 
 .span-values-custo .icon{
-     font-size: 17px;
+    font-size: 17px;
 }
 
 .span-values-custo .icon i{
-     font-size: 20px;
+    font-size: 20px;
     color: #007bff;
 }
 
@@ -647,17 +641,18 @@ section .contain-add-card .button-add-card{
 }
 
 .contain-confirm-tarefa {
-  display: flex;
-  align-items: center;
-  position:absolute;
-  z-index: 5;
-  margin-bottom: 145px;
-  gap: 5px; 
-  background: #fc919a;
-  padding: 10px;
-  border-radius: 10px;
-  color: black;
-  font-weight: 600;
+    display: flex;
+    align-items: center;
+    position:absolute;
+    z-index: 5;
+    margin-bottom: 145px;
+    gap: 5px; 
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    color: black;
+    font-weight: 600;
+    border: 1px solid black;
 }
 
 .confirm-body{
@@ -674,22 +669,23 @@ section .contain-add-card .button-add-card{
 }
 
 .contain-confirm-tarefa button {
-  border: 1px solid #ccc;
-  padding: 5px 8px;
-  cursor: pointer;
-  border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 5px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    color: white;
 }
 
 .btn-confirmar {
-  background-color: rgb(58, 179, 58); 
-  color: black;
-  border-color: #d43f3a;
+    background-color: rgb(58, 179, 58); 
+    color: black;
+    border-color: #d43f3a;
 }
 
 .btn-cancelar {
-  background-color: rgb(218, 55, 55); 
-  color: black;
-  border-color: #eea236;
+    background-color: rgb(218, 55, 55); 
+    color: black;
+    border-color: #eea236;
 }
 
 .contain-form-comentario form{

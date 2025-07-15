@@ -15,14 +15,14 @@ class TarefasController < ApplicationController
       status = tarefa.previously_new_record? ? :created : :ok
       render json: { tarefa: tarefa.to_frontend_obj}, status: :ok
     else
-      render json: { errors: tarefa.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: tarefa.errors.messages }, status: :unprocessable_entity
     end
   end
 
   def destroy
     tarefa = Tarefa.find(params[:id])
     tarefa.destroy
-    render json: { tarefa_id: {id: tarefa.id} }, status: :ok
+    render json: { tarefa_id: tarefa.id }, status: :ok
   end
 
   private

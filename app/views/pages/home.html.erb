@@ -1,4 +1,4 @@
-<section>
+<section ng-controller="TarefaController">
   <div class="contain-add-card">
     <div class="button-add-card">
       <div class="icon-plus">
@@ -6,16 +6,22 @@
       </div>
       <button id="mostrar-nova-tarefa" ng-click="formCtrl.open()">Cadastrar Tarefa</button>
     </div>
+    <div class="contain-search">
+      <input class="form-control mr-sm-2" ng-model="termoDaBusca" type="search" placeholder="Buscar Tarefa" aria-label="Buscar">
+      <div class="btn btn-outline-success icon-search" ng-click="listCtrl.buscar(termoDaBusca)">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+    </div>
   </div>
   <div class="contain-grid-cards"> 
     <div ng-show="formCtrl.ativo">
-      <div class="contain-acordion">
+      <div class="contain-acordion" ng-click="formCtrl.close()">
         <div class="accordion" id="accordion-nova-tarefa"> 
           <div class="contain-angle">  
             <div class="angle"> 
               <i class="fa-solid fa-angle-right" id="angle"> </i> 
             </div>
-            <span ng-bind="tarefa.id === formCtrl.novaTarefa.id ? 'Nova Tarefa' : formCtrl.novaTarefa.nome"></span>
+            <span ng-bind="tarefa.id === formCtrl.novaTarefa.id ? 'Nova Tarefa' : formCtrl.nomeTarefaEditar"></span>
           </div>
         </div>
       </div>
@@ -25,18 +31,28 @@
           <div class="input-one">
             Nome da Tarefa
             <input type="text" ng-model="formCtrl.novaTarefa.nome">
+            <div class="text-danger" ng-if="formCtrl.errosDoServidor.nome">
+              {{ formCtrl.errosDoServidor.nome[0] }}
+            </div>
           </div>
+          
           <div class="input-two"> 
             <div class="contain-itens">
               <span>Início</span>
               <div class="input-calendar"> 
                 <input type="date" ng-model="formCtrl.novaTarefa.date_inicio">
               </div>
+              <div class="text-danger" ng-if="formCtrl.errosDoServidor.date_inicio">
+                {{ formCtrl.errosDoServidor.date_inicio[0] }}
+              </div>
             </div>
             <div class="contain-itens">
               <span>Conclusão</span>
               <div class="input-calendar"> 
                 <input type="date" ng-model="formCtrl.novaTarefa.data_fim">
+              </div>
+              <div class="text-danger" ng-if="formCtrl.errosDoServidor.data_fim">
+                {{ formCtrl.errosDoServidor.data_fim[0] }}
               </div>
             </div>
           </div>
@@ -52,7 +68,7 @@
             <div class="contain-select" >
               <span>Status da Tarefa</span>
               <select ng-model="formCtrl.novaTarefa.status">
-                <option>Pendente</option>
+                <option selected >Pendente</option>
                 <option>Em andamento</option>
                 <option>Concluído</option>
               </select>
@@ -89,13 +105,15 @@
                   Deseja exlcluir tarefa?
                 </div>
                 <div class="contain-confirm-btn">
-                 <button class="btn-confirmar" ng-click="formCtrl.excluirTarefa(tarefa)">Sim</button>
-                 <button class="btn-cancelar" ng-click="tarefa.confirmandoExclusao = false">Não</button>
+                  <button class="btn-confirmar" ng-click="formCtrl.excluirTarefa(tarefa)">Sim</button>
+                  <button class="btn-cancelar" ng-click="tarefa.confirmandoExclusao = false">Não</button>
                 </div>
               </div>
             </div>
-            <div class="contain-delete-tarefa" ng-click="tarefa.confirmandoExclusao = true">
-              <div><i class="fa-solid fa-trash-can"></i></div>
+            <div class="contain-delete-tarefa" >
+              <div ng-if="formCtrl.tarefaParaEditar.id == formCtrl.novaTarefa.id" ng-click="tarefa.confirmandoExclusao = true">
+                <i class="fa-solid fa-trash-can"></i>
+              </div>   
             </div>
             <div class="contain-edit-tarefa">
               <div ng-if="tarefa.id !== formCtrl.novaTarefa.id" class="edit-link" ng-click="formCtrl.editarTarefa(tarefa)">
@@ -118,7 +136,7 @@
             </div>
             <div class="contain-values-custo">
               <div class="span-values-custo">
-                <span> Custo Estimado</span>
+                <span>Custo Estimado</span>
                 <div class="icon">
                   <i class="fa-solid fa-brazilian-real-sign"></i>
                   {{tarefa.custo}}
@@ -126,7 +144,7 @@
               </div>
               <div class="span-values-custo" >
                 <span> Status da Tarefa </span> 
-              <div class="status-tarefa">{{tarefa.status}}</div>
+                <div class="status-tarefa">{{tarefa.status}}</div>
               </div>
             </div>
           </div>
@@ -142,6 +160,9 @@
               <div class="contain-form-comentario">
                 <form ng-submit="formComentCtrl.criarComentario(tarefa)">
                   <textarea ng-model="tarefa.novoComentario.conteudo" placeholder="Adicione um comentário..."></textarea>
+                  <div class="text-danger" ng-if="formCtrl.errosDoServidor.conteudo">
+                      {{ formCtrl.errosDoServidor.conteudo[0] }}
+                  </div>
                   <div class="enviar-form-comentario">
                     <div class="botao-comentario">
                       <i class="fa-solid fa-envelope"></i>

@@ -31,7 +31,7 @@ class Tarefa < ApplicationRecord
     return if data_fim.blank? || date_inicio.blank?
 
     if data_fim < date_inicio
-      errors.add(:data_fim, "deve ser maior ou igual à data de início")
+      errors.add(:data_fim, "Data incorreta!")
     end
   end
 end

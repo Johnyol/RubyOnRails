@@ -55,6 +55,7 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
   $scope.formCtrl = {
     ativo: false,
     novaTarefa: {}, 
+    errosDoServidor: {},
 
     open: ()=>{
       if($scope.formCtrl.ativo) {return};
@@ -86,13 +87,13 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
         console.log("Tarefa atualizada com sucesso");
         $scope.listCtrl.buscar();
         $scope.formCtrl.close();
+        $scope.formCtrl.errosDoServidor = [];
       },
       (error) => {
         console.error("Ocorreu um erro ao criar a tarefa:", error);
+        $scope.formCtrl.errosDoServidor = error.data.errors;
       });
     },
-
-
 
     excluirTarefa: (tarefa)=>{
       $http.delete("/tarefas/" + tarefa.id + ".json")
@@ -135,6 +136,7 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
 
         }, (error) => {
           console.error("Erro ao criar comentário:", error);
+          $scope.formCtrl.errosDoServidor = error.data.errors;
         });
     },
 
