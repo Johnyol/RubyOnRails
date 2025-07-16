@@ -77,7 +77,6 @@ section{
 .contain-add-card{
     display: flex;
     align-items: center;
-    justify-content: left;
     padding: 10px;
     gap: 10px;
 }
@@ -97,7 +96,7 @@ section{
 .contain-add-card .button-add-card button{
     font-size: 20px;
     font-weight: 530;
-    padding: 15px;
+    padding: 13px;
     background-color: white;
     border-radius: 0 10px 10px 0;
     border: none;
@@ -105,7 +104,7 @@ section{
 
  .contain-add-card .button-add-card .icon-plus{
     background-color: rgb(8, 105, 216);
-    padding: 11px;
+    padding: 9px;
     border-radius: 10px 0 0 10px;
 }
 
@@ -117,7 +116,7 @@ section{
 .contain-search{
     display: flex;
     align-items: center;
-    width: 350px;
+    width: 400px;
     height: 60px;
     padding: 5px;
     justify-content: space-around;
@@ -135,7 +134,7 @@ section{
     padding: 8px;
     border-radius:10px;
     border: none;
-    width: 50px;
+    width: 60px;
 }
 
 .accordion{
@@ -386,6 +385,8 @@ section{
     background: linear-gradient(to top, rgba(175, 175, 175, 0.562) , rgb(255, 255, 255));
     margin-top: 20px;
     border-radius: 5px;
+    justify-content: space-between;
+    width: 800px;
     z-index: 1;
 }
 
@@ -393,7 +394,7 @@ section{
     color:  #007bff;
     cursor: pointer;
     align-items: center;
-    width: 680px;
+    width: 600px;
     border: none;
     text-align: left;
     display: flex;
@@ -444,8 +445,9 @@ section{
 .contain-buttons-tarefa{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     gap: 20px;
+    padding: 10px;
 }
 
 .contain-delete-tarefa{
@@ -466,6 +468,7 @@ section{
 
 .contain-delete-tarefa :hover{
     transform: scale(1.04);
+    cursor: pointer;
 }
 
 .contain-edit-tarefa{
@@ -474,6 +477,7 @@ section{
 
 .contain-edit-tarefa :hover{
     transform: scale(1.04);
+    cursor: pointer;
 }
 
 .edit-link i{
@@ -742,4 +746,54 @@ section{
     align-items: center;
     flex-direction: column;
     justify-content: center;
+}
+
+.item-bloqueado {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.cancelar-edicao-tarefa{
+    width: 55px;
+}
+
+.cancelar-edicao-tarefa :hover{
+    transform: scale(1.04);
+    cursor: pointer;
+}
+
+.cancelar-edicao-tarefa i{
+    color: #0b63c2;
+    background-color: rgb(224, 224, 224);
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 25px;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirmar-edicao-tarefa{
+    color: #009000;
+}
+
+.confirmar-edicao-tarefa :hover{
+    transform: scale(1.04);
+    cursor: pointer;
+}
+
+.confirmar-edicao-tarefa i{
+    background-color: rgb(224, 224, 224);
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 25px;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hidden{
+    display: none;
 }

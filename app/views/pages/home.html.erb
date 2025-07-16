@@ -4,7 +4,7 @@
       <div class="icon-plus">
         <i class="fa-solid fa-plus"></i>
       </div>
-      <button id="mostrar-nova-tarefa" ng-click="formCtrl.open()">Cadastrar Tarefa</button>
+      <button id="mostrar-nova-tarefa" ng-class="{'item-bloqueado': formCtrl.emModoEdicao}" ng-click="formCtrl.open()">Cadastrar Tarefa</button>
     </div>
     <div class="contain-search">
       <input class="form-control mr-sm-2" ng-model="termoDaBusca" type="search" placeholder="Buscar Tarefa" aria-label="Buscar">
@@ -15,13 +15,13 @@
   </div>
   <div class="contain-grid-cards"> 
     <div ng-show="formCtrl.ativo">
-      <div class="contain-acordion" ng-click="formCtrl.close()">
+      <div class="contain-acordion" ng-click="formCtrl.close()" >
         <div class="accordion" id="accordion-nova-tarefa"> 
           <div class="contain-angle">  
             <div class="angle"> 
               <i class="fa-solid fa-angle-right" id="angle"> </i> 
             </div>
-            <span ng-bind="tarefa.id === formCtrl.novaTarefa.id ? 'Nova Tarefa' : formCtrl.nomeTarefaEditar"></span>
+            <span>Nova Tarefa</span>
           </div>
         </div>
       </div>
@@ -35,7 +35,6 @@
               {{ formCtrl.errosDoServidor.nome[0] }}
             </div>
           </div>
-          
           <div class="input-two"> 
             <div class="contain-itens">
               <span>Início</span>
@@ -56,7 +55,6 @@
               </div>
             </div>
           </div>
-
           <div class="input-three">
             <div class="contain-select">
               <span>Custo estimado</span>
@@ -65,16 +63,12 @@
                 <input ng-model="formCtrl.novaTarefa.custo">
               </div> 
             </div>
-            <div class="contain-select" >
+            <div class="contain-select">
               <span>Status da Tarefa</span>
-              <select ng-model="formCtrl.novaTarefa.status">
-                <option selected >Pendente</option>
-                <option>Em andamento</option>
-                <option>Concluído</option>
+              <select ng-model="formCtrl.novaTarefa.status" ng-options="opcao.valor as opcao.nome for opcao in opcoesDeStatus">
               </select>
             </div>
           </div>
-
           <div class="contain-buttons">  
             <button class="span-back" type="button" ng-click="formCtrl.close()">
               <i class="fa-solid fa-rotate-left"></i>
@@ -92,10 +86,11 @@
     <div class="contain-tarefas" id="contain-tarefas">
       <div class="card-tarefa" ng-repeat="tarefa in listCtrl.tarefas">
         <div class="contain-acordion-tarefa">
-          <div class="accordion-tarefa" ng-click="itemCtrl.abrirTarefaItem(tarefa)">
+          <div class="accordion-tarefa"  ng-click="itemCtrl.abrirTarefaItem(tarefa)">
             <div class="contain-angle">
               <div class="angle"><i class="fa-solid fa-angle-right"></i></div>
-              <span>{{ tarefa.nome }}</span>
+              <span ng-if="!tarefa.editando">{{ tarefa.nome }}</span>
+              <input type="text" ng-if="tarefa.editando" ng-model="tarefa.nome">
             </div>
           </div>
           <div class="contain-buttons-tarefa">
@@ -111,27 +106,43 @@
               </div>
             </div>
             <div class="contain-delete-tarefa" >
-              <div ng-if="formCtrl.tarefaParaEditar.id == formCtrl.novaTarefa.id" ng-click="tarefa.confirmandoExclusao = true">
+              <div ng-if="tarefa.editando" ng-click="tarefa.confirmandoExclusao = true">
                 <i class="fa-solid fa-trash-can"></i>
               </div>   
             </div>
-            <div class="contain-edit-tarefa">
-              <div ng-if="tarefa.id !== formCtrl.novaTarefa.id" class="edit-link" ng-click="formCtrl.editarTarefa(tarefa)">
+            <div ng-if="!tarefa.editando" class="contain-edit-tarefa">
+              <div class="edit-link" ng-click="formCtrl.editarTarefa(tarefa)">
                 <i class="fa-solid fa-pencil"></i>
+              </div>
+            </div>
+            <div class="cancelar-edicao-tarefa" ng-if="tarefa.editando" ng-click="itemCtrl.cancelarTarefaEdicao(tarefa)">
+              <div>
+                <i class="fa-solid fa-rotate-left"></i>
+              </div>
+            </div>
+            <div class="confirmar-edicao-tarefa" ng-if="tarefa.editando" ng-click="formCtrl.salvarTarefa(tarefa)">
+              <div>
+                <i class="fa-solid fa-check"></i>
               </div>
             </div>
           </div>
         </div>
         <div class="body-painel-tarefa" ng-if="tarefa.aberta">
-          <div class="painel-tarefa-comentario">
+          <div class="painel-tarefa-comentario" ng-submit="formCtrl.salvarTarefa()">
             <div class="contain-values-task">
               <div class="span-values-date">
                 <span>Inicio</span>
-                <div class="data-span"><p class="data_inicio">{{tarefa.date_inicio}}</p></div>
+                <div class="data-span">
+                  <p ng-if="!tarefa.editando">{{tarefa.date_inicio}}</p>
+                  <input type="date" ng-if="tarefa.editando" ng-model="tarefa.date_inicio">
+                </div>
               </div>
               <div class="span-values-date">
                 <span>Conclusão</span>
-                <div class="data-span"><p class="data_fim">{{tarefa.data_fim}}</p></div>
+                <div class="data-span">
+                  <p ng-if="!tarefa.editando">{{tarefa.data_fim | date:'dd/MM/yyyy'}}</p>
+                  <input type="date" ng-if="tarefa.editando" ng-model="tarefa.data_fim">
+                </div>
               </div>
             </div>
             <div class="contain-values-custo">
@@ -139,16 +150,21 @@
                 <span>Custo Estimado</span>
                 <div class="icon">
                   <i class="fa-solid fa-brazilian-real-sign"></i>
-                  {{tarefa.custo}}
+                  <p ng-if="!tarefa.editando">{{tarefa.custo}}</p>
+                  <input ng-if="tarefa.editando" ng-model="tarefa.custo">
                 </div> 
               </div>
               <div class="span-values-custo" >
                 <span> Status da Tarefa </span> 
-                <div class="status-tarefa">{{tarefa.status}}</div>
+                <div class="status-tarefa">
+                  <p ng-if="!tarefa.editando">{{tarefa.status}}</p>
+                  <select ng-if="tarefa.editando" ng-model="tarefa.status" ng-options="opcao.valor as opcao.nome for opcao in opcoesDeStatus">
+                  </select>
+                </div>
               </div>
             </div>
           </div>
-          <div class="contain-comentarios" id="painel-comentarios">
+          <div ng-class="{'hidden': formCtrl.emModoEdicao && tarefa.editando}"  class="contain-comentarios" id="painel-comentarios">
             <div class="card-nav-comentario"> <i class="fa-solid fa-comments"></i> Comentários </div>
             <div class="painel-contain-comentario">
               <div class="card-comentario-value">
