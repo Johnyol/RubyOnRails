@@ -797,3 +797,30 @@ section{
 .hidden{
     display: none;
 }
+
+.input-editando-tarefa{
+    border: none;
+    border-bottom: 1px solid black ;
+    outline: none;
+}
+
+.input-editar-custo{
+    border: none;
+    border-bottom: 1px solid black ;
+    outline: none;
+    width: 150px;
+}
+
+.select-editar-status{
+    border: none;
+    border-bottom: 1px solid black ;
+    outline: none;
+    width: 200px;
+}
+
+.input-editar-data{
+    outline: none;
+    border: none;
+    border-bottom: 1px solid black ;
+
+}

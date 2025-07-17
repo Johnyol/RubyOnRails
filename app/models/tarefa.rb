@@ -1,5 +1,6 @@
 class Tarefa < ApplicationRecord
   has_many :comentarios, dependent: :destroy
+  accepts_nested_attributes_for :comentarios, allow_destroy: true
 
   validates :nome, presence: true, length: { minimum: 3 }
   validates :date_inicio, :data_fim, presence: true

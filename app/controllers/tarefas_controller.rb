@@ -9,6 +9,7 @@ class TarefasController < ApplicationController
 
   def save
     tarefa = Tarefa.find_or_initialize_by(id: tarefa_params[:id])
+
     tarefa.assign_attributes(tarefa_params)
 
     if tarefa.save
@@ -28,7 +29,7 @@ class TarefasController < ApplicationController
   private
 
   def tarefa_params
-    params.require(:tarefa).permit(:id, :nome, :date_inicio, :data_fim, :custo, :status)
+    params.require(:tarefa).permit( :id, :nome, :date_inicio, :data_fim, :custo, :status,comentarios_attributes: [:id, :conteudo, :_destroy])
   end
 
 end
