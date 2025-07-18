@@ -30,7 +30,7 @@
         <form class="body-painel" ng-submit="formCtrl.salvarTarefa()">
           <div class="input-one">
             Nome da Tarefa
-            <input type="text" ng-model="formCtrl.novaTarefa.nome">
+            <input type="text" ng-model="formCtrl.novaTarefa.nome" placeholder="....">
             <div class="text-danger" ng-if="formCtrl.errosDoServidor.nome">
               {{ formCtrl.errosDoServidor.nome[0] }}
             </div>
@@ -106,7 +106,7 @@
               </div>
             </div>
             <div class="contain-delete-tarefa" >
-              <div ng-if="tarefa.editando" ng-click="tarefa.confirmandoExclusao = true">
+              <div ng-if="tarefa.editando " ng-click="tarefa.confirmandoExclusao = true">
                 <i class="fa-solid fa-trash-can"></i>
               </div>   
             </div>
@@ -162,7 +162,7 @@
                   <b ng-if="!tarefa.editando">
                     {{(tarefa.custo < 1) ? 'Sem custo' : (tarefa.custo | currency:'')}}
                   </b>
-                  <input class="input-editar-custo" type="text" ng-if="tarefa.editando" ng-model="tarefa.custo">
+                  <input type="number" class="input-editar-custo" type="text" ng-if="tarefa.editando" ng-model="tarefa.custo">
                 </div> 
               </div>
               <div class="span-values-custo" >
@@ -187,8 +187,8 @@
               <div class="contain-form-comentario">
                 <form ng-submit="formComentCtrl.criarComentario(tarefa)">
                   <textarea ng-model="tarefa.novoComentario.conteudo" placeholder="Adicione um comentário..."></textarea>
-                  <div class="text-danger" ng-if="formCtrl.errosDoServidor['comentarios.conteudo']">
-                      {{ formCtrl.errosDoServidor['comentarios.conteudo'][0] }}
+                  <div class="text-danger" ng-if="tarefa.errosComentario['comentarios.conteudo']">
+                    {{ tarefa.errosComentario['comentarios.conteudo'][0] }}
                   </div>
                   <div class="enviar-form-comentario">
                     <div class="botao-comentario">

@@ -42,6 +42,9 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
             tarefasBanco.forEach((tarefa) => {
               tarefa.aberta = false;
               tarefa.editando = false;
+              tarefa.date_inicio = converterStringParaDataLocal(tarefa.date_inicio);
+              tarefa.data_fim = converterStringParaDataLocal(tarefa.data_fim);
+              tarefa.custo = parseFloat(tarefa.custo);
             });
 
             $scope.listCtrl.tarefas = tarefasBanco;
@@ -106,9 +109,6 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
       $scope.formCtrl.close();
       $scope.formCtrl.emModoEdicao = true;
       
-      tarefa.date_inicio = converterStringParaDataLocal(tarefa.date_inicio);
-      tarefa.data_fim = converterStringParaDataLocal(tarefa.data_fim);
-
       $scope.listCtrl.tarefas.forEach(t => {
         if (t.id !== tarefa.id) {
           t.aberta = false;
@@ -118,7 +118,6 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
       tarefa.aberta = true;
       tarefa.editando = true;
       
-
     },
 
     salvarTarefa: (tarefa)=> { 
@@ -164,41 +163,46 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
   }
 
   $scope.formComentCtrl ={
-    novoComentario: {}, 
+    errosComentario: {},
 
     criarComentario: (tarefa) => {
+
+      if (!tarefa.novoComentario) {
+        tarefa.novoComentario = { conteudo: '' };
+      }
+
+      tarefa.errosComentario = {};
       
-      const payload = {
-        tarefa: {
+      const comentarioTarefa = {
+        tarefa:{
           id: tarefa.id,
           comentarios_attributes: [{ conteudo: tarefa.novoComentario.conteudo}]
         }
       };
 
-      $http.post(`/tarefas/save.json`, payload)
+      $http.post(`/tarefas/save.json`, comentarioTarefa)
         .then((response) => {
           console.log("Comentário criado com sucesso");
-          
-          tarefa.comentarios = response.data.tarefa.comentarios;
 
-          tarefa.novoComentario = {};
+          tarefa.comentarios = response.data.tarefa.comentarios;
+          tarefa.novoComentario.conteudo = '';
 
         }, (error) => {
           console.error("Erro ao criar comentário:", error);
-          $scope.formCtrl.errosDoServidor = error.data.errors;
+          tarefa.errosComentario = error.data.errors;
         });
     },
 
     excluirComentario: (tarefa, comentario) =>{
 
-      const payload = {
-        tarefa:
-         { id: tarefa.id, 
+      const comentarioTarefa = {
+        tarefa:{ 
+          id: tarefa.id, 
           comentarios_attributes: [{id: comentario.id, _destroy: true}]
         }
       };
 
-      $http.post(`/tarefas/save.json`, payload  )
+      $http.post(`/tarefas/save.json`, comentarioTarefa)
       .then((response) => {
         console.log("Comentário excluído com sucesso");
 
