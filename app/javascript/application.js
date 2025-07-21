@@ -11,6 +11,7 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
 
   function converterStringParaDataLocal(stringData) {
     if (!stringData || typeof stringData !== 'string') return null;
+    if (stringData instanceof Date) return stringData;
     const partes = stringData.split('-').map(Number);
     if (partes.length !== 3 || isNaN(partes[0]) || isNaN(partes[1]) || isNaN(partes[2])) {
         return null;
@@ -58,89 +59,94 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
 
   $scope.itemCtrl = {
     abrirTarefaItem: (tarefa)=> {
-
       if (tarefa.editando) {
         return;
       }
-
       const algumaTarefaEditando = $scope.listCtrl.tarefas.some(t => t.editando);
       if (algumaTarefaEditando) {
-        if (!tarefa.editando) {
-          return; 
-        }
+        return; 
       }
-     
+      
       tarefa.aberta = !tarefa.aberta;
     },
 
     cancelarTarefaEdicao: (tarefa) => {
-      angular.extend(tarefa, $scope.formCtrl.tarefaOriginal);
+      
+      if (!tarefa.id) {
+        const index = $scope.listCtrl.tarefas.indexOf(tarefa);
+        if (index > -1) {
+          $scope.listCtrl.tarefas.splice(index, 1);
+        }
+      } else {
+        angular.extend(tarefa, $scope.formCtrl.tarefaOriginal);
+        tarefa.editando = false;
+      }
 
-      tarefa.editando = false;
       $scope.formCtrl.emModoEdicao = false;
       $scope.formCtrl.tarefaOriginal = {};
-      $scope.formCtrl.errosDoServidor = [];
     }
   }
 
   $scope.formCtrl = {
-    ativo: false,
+    
     emModoEdicao: false,
-    errosDoServidor: {},
-    novaTarefa: {}, 
     tarefaOriginal: {},
+    
+    iniciarNovaTarefa: () => {
+      if ($scope.formCtrl.emModoEdicao) return;
 
-    open: ()=>{
-      if($scope.formCtrl.ativo) {return};
-      $scope.formCtrl.ativo = true
-    },
+      const novaTarefa = {
+        id: null,
+        nome: '',
+        date_inicio: new Date(),
+        data_fim: null,
+        custo: 0,
+        status: 'Pendente',
+        editando: true,
+        aberta: false,
+        errosDoServidor: {}
+      };
+      
+      $scope.listCtrl.tarefas.unshift(novaTarefa);
 
-    close: ()=>{
-      if(!$scope.formCtrl.ativo) {return};
-      $scope.formCtrl.ativo = false
-      $scope.formCtrl.novaTarefa = {};
-      $scope.formCtrl.errosDoServidor = [];
+      $scope.formCtrl.emModoEdicao = true;
     },
 
     editarTarefa: (tarefa)=>{
-      
+      if ($scope.formCtrl.emModoEdicao) return;
+   
       $scope.formCtrl.tarefaOriginal = angular.copy(tarefa);
-      $scope.formCtrl.errosDoServidor = [];
-      $scope.formCtrl.close();
       $scope.formCtrl.emModoEdicao = true;
-      
+   
       $scope.listCtrl.tarefas.forEach(t => {
-        if (t.id !== tarefa.id) {
-          t.aberta = false;
-          t.editando = false;
-        }
+        t.aberta = (t === tarefa);
+        t.editando = (t === tarefa);
       });
-      tarefa.aberta = true;
-      tarefa.editando = true;
-      
     },
 
     salvarTarefa: (tarefa)=> { 
 
-      let tarefaParaSalvar;
-
-      if (tarefa) {
-        tarefaParaSalvar = tarefa;
-      } else {
-        tarefaParaSalvar = $scope.formCtrl.novaTarefa;
-      }
-        
-      $http.post("/tarefas/save.json", { tarefa: tarefaParaSalvar })
+      $http.post("/tarefas/save.json", { tarefa: tarefa })
       .then((response) => {
-        console.log("Tarefa atualizada com sucesso");
-        $scope.listCtrl.buscar();
-        $scope.formCtrl.close();
-        $scope.formCtrl.errosDoServidor = [];
+        console.log("Tarefa salva com sucesso");
+
+       
+        const tarefaSalva = response.data.tarefa;
+        
+        tarefaSalva.date_inicio = converterStringParaDataLocal(tarefaSalva.date_inicio);
+        tarefaSalva.data_fim = converterStringParaDataLocal(tarefaSalva.data_fim);
+        tarefaSalva.custo = parseFloat(tarefaSalva.custo);
+
+        angular.extend(tarefa, tarefaSalva); 
+
+        tarefa.editando = false; 
+        tarefa.aberta = false;
+        tarefa.errosDoServidor = {}; 
         $scope.formCtrl.emModoEdicao = false; 
       },
       (error) => {
-        console.error("Ocorreu um erro ao criar a tarefa:", error);
-        $scope.formCtrl.errosDoServidor = error.data.errors;
+        console.error("Ocorreu um erro ao salvar a tarefa:", error);
+        tarefa.errosDoServidor = error.data.errors;
       });
     },
 
@@ -149,7 +155,10 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
       .then(
         (response) => {
           console.log("Tarefa excluída com sucesso");
-          $scope.listCtrl.buscar(); 
+          const index = $scope.listCtrl.tarefas.indexOf(tarefa);
+          if (index > -1) {
+            $scope.listCtrl.tarefas.splice(index, 1);
+          }
           $scope.formCtrl.emModoEdicao = false; 
           $scope.formCtrl.tarefaOriginal = {};  
         },
@@ -159,53 +168,42 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
         }
       );
     }
-
   }
 
-  $scope.formComentCtrl ={
+  $scope.formComentCtrl = {
     errosComentario: {},
-
     criarComentario: (tarefa) => {
-
       if (!tarefa.novoComentario) {
         tarefa.novoComentario = { conteudo: '' };
       }
-
       tarefa.errosComentario = {};
-      
+   
       const comentarioTarefa = {
         tarefa:{
           id: tarefa.id,
           comentarios_attributes: [{ conteudo: tarefa.novoComentario.conteudo}]
         }
       };
-
       $http.post(`/tarefas/save.json`, comentarioTarefa)
         .then((response) => {
           console.log("Comentário criado com sucesso");
-
           tarefa.comentarios = response.data.tarefa.comentarios;
           tarefa.novoComentario.conteudo = '';
-
         }, (error) => {
           console.error("Erro ao criar comentário:", error);
           tarefa.errosComentario = error.data.errors;
         });
     },
-
     excluirComentario: (tarefa, comentario) =>{
-
       const comentarioTarefa = {
         tarefa:{ 
           id: tarefa.id, 
           comentarios_attributes: [{id: comentario.id, _destroy: true}]
         }
       };
-
       $http.post(`/tarefas/save.json`, comentarioTarefa)
       .then((response) => {
         console.log("Comentário excluído com sucesso");
-
         const index = tarefa.comentarios.indexOf(comentario);
         if (index > -1) {
           tarefa.comentarios.splice(index, 1);
@@ -214,10 +212,7 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
         console.error("Erro ao excluir o comentário:", error);
       });
     }
-
   }
 
   init();
-
-  
 });

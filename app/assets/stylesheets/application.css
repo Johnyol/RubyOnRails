@@ -173,22 +173,18 @@ section{
     justify-content: center;
 }
 
-  .contain-acordion .accordion i{
+.contain-acordion .accordion i{
     font-size: 30px; 
     transition: all ease-in-out 0.20s;
-  }
+}
 
- .painel{
+ .painel-form{
     background-color: #cdc8c8;
     padding: 1px;
     overflow: hidden;
     border: 1px solid #ccc;
     border-radius: 5px;
     display: flex;
-}   
-
-
-.painel .body-painel{
     background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: column;
@@ -197,14 +193,14 @@ section{
     width: 795px;
 }
 
-.painel .body-painel .input-one{
+.painel-form .input-one{
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
   
-.painel .body-painel .input-one input{
+.painel-form .input-one input{
     border: 1px solid rgba(159, 201, 255, 0.404);
     background-color: rgba(159, 201, 255, 0.404);
     padding: 10px;
@@ -213,7 +209,7 @@ section{
     color: rgb(97, 95, 95);
 }
 
-.painel .body-painel .input-one label{
+.painel-form .input-one label{
     color: #007bff;
     font-weight: 700;
 }
@@ -308,7 +304,7 @@ section{
 }
 
 
-.body-painel .contain-buttons{
+.painel-form .contain-buttons{
     display: flex;
     justify-content: right;
     align-items: center;
@@ -450,25 +446,28 @@ section{
     padding: 10px;
 }
 
-.contain-delete-tarefa{
-    width: 55px;
+.modal-delete{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: rgb(224, 224, 224);
+    border-radius: 5px;
+    width: 120px;
+    font-weight:600;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
-.contain-delete-tarefa i{
-    color: red;
-    background-color: rgb(224, 224, 224);
+
+.modal-delete i{
+    color: white;
+    background-color: red;
     padding:10px;
-    border-radius: 15px;
-    width: 45px;
+    border-radius: 5px 0 0 5px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 25px;
-}
-
-.contain-delete-tarefa :hover{
-    transform: scale(1.04);
-    cursor: pointer;
 }
 
 .contain-edit-tarefa{
@@ -544,14 +543,24 @@ section{
     align-items: center;
 }
 
-.span-values-custo span{
-     font-size: 20px;
+.span-values-status{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    align-items: center;
+}
+
+.span-values-status span{
+    font-size: 20px;
     font-weight: 700;
     color: #007bff;
 }
 
-.span-values-custo .icon{
-    font-size: 17px;
+
+.span-values-custo span{
+    font-size: 20px;
+    font-weight: 700;
+    color: #007bff;
 }
 
 .span-values-custo .icon i{
@@ -665,7 +674,7 @@ section{
     gap: 3px;
 }
 
-.contain-confirm-tarefa, .contain-confirm-btn{
+.contain-confirm-tarefa .contain-confirm-btn{
     display: flex;
     align-items: center;
     justify-content: right;
@@ -677,18 +686,16 @@ section{
     padding: 5px 8px;
     cursor: pointer;
     border-radius: 4px;
-    color: white;
+    color: black;
 }
 
-.btn-confirmar {
+.contain-confirm-btn .btn-confirmar {
     background-color: rgb(58, 179, 58); 
-    color: black;
-    border-color: #d43f3a;
+    border-color: rgb(58, 179, 58);
 }
 
-.btn-cancelar {
+.contain-confirm-btn .btn-cancelar {
     background-color: rgb(218, 55, 55); 
-    color: black;
     border-color: #eea236;
 }
 
