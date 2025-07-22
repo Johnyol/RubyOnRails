@@ -1,7 +1,6 @@
 import jquery from 'jquery'
 window.$ = jquery
 window.jquery = jquery
-import "@hotwired/turbo-rails"
 import "controllers"
 
 angular.module('meuApp', []).controller('TarefaController', function($scope, $http) {
@@ -38,23 +37,35 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
       $http.get("/tarefas.json", config)
         .then(
           (response) => {
-            var tarefasBanco = response.data.lista;
-
-            tarefasBanco.forEach((tarefa) => {
-              tarefa.aberta = false;
-              tarefa.editando = false;
-              tarefa.date_inicio = converterStringParaDataLocal(tarefa.date_inicio);
-              tarefa.data_fim = converterStringParaDataLocal(tarefa.data_fim);
-              tarefa.custo = parseFloat(tarefa.custo);
-            });
-
-            $scope.listCtrl.tarefas = tarefasBanco;
+            $scope.listCtrl.handle(response.data.tarefas);
           },
           (error) => {
             console.error("Ocorreu um erro ao buscar as tarefas:", error);
           }
         );
     },
+
+    handle: (tarefa) => { 
+
+      $scope.listCtrl.tarefas = [tarefa].flat();
+      
+      tarefas.forEach((tarefa) => { 
+        tarefa.aberta = false;
+        tarefa.editando = true;
+        tarefa.date_inicio = converterStringParaDataLocal(tarefa.date_inicio);
+        tarefa.data_fim = converterStringParaDataLocal(tarefa.data_fim);
+        tarefa.custo = parseFloat(tarefa.custo);
+
+        const tarefaEncontrada = $scope.listCtrl.tarefas.find(item => item.id === tarefa.id);
+
+        if (tarefaEncontrada) {
+          angular.extend(tarefaEncontrada, tarefa);
+        } else {
+          $scope.listCtrl.tarefas.push(tarefa);
+        }
+
+      });
+    }
   };
 
   $scope.itemCtrl = {
@@ -88,30 +99,33 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
   }
 
   $scope.formCtrl = {
-    
-    emModoEdicao: false,
     tarefaOriginal: {},
-    
-    iniciarNovaTarefa: () => {
-      if ($scope.formCtrl.emModoEdicao) return;
 
-      const novaTarefa = {
-        id: null,
-        nome: '',
-        date_inicio: new Date(),
-        data_fim: null,
-        custo: 0,
-        status: 'Pendente',
-        editando: true,
-        aberta: false,
-        errosDoServidor: {}
+    open: (params)=>{
+      if ($scope.formCtrl.ativo) return;
+
+      $scope.formCtrl.ativo = true;
+
+      $scope.formCtrl.tarefaOriginal = params;
+      $scope.formCtrl.params = angular.copy(params);
+
+      $scope.formCtrl.newRecord = !$scope.formCtrl.params.id;
+
+      if ($scope.formCtrl.newRecord){
+        $scope.formCtrl.params.date_inicio = new Date(),
+        $scope.formCtrl.params.status = 'Pendente'
       };
-      
-      $scope.listCtrl.tarefas.unshift(novaTarefa);
 
-      $scope.formCtrl.emModoEdicao = true;
+      $scope.listCtrl.tarefas.unshift($scope.formCtrl.params);
     },
 
+    close: ()=>{
+      $scope.formCtrl.ativo = false;
+      $scope.formCtrl.newRecord = false;
+      $scope.formCtrl.params = {};
+    },
+
+    
     editarTarefa: (tarefa)=>{
       if ($scope.formCtrl.emModoEdicao) return;
    
@@ -128,21 +142,14 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
 
       $http.post("/tarefas/save.json", { tarefa: tarefa })
       .then((response) => {
-        console.log("Tarefa salva com sucesso");
+        console.log("Tarefa sendo processada");
 
-       
-        const tarefaSalva = response.data.tarefa;
+        const tarefaSalva = response.data.tarefa
+
+        $scope.listCtrl.handle(tarefaSalva);
         
-        tarefaSalva.date_inicio = converterStringParaDataLocal(tarefaSalva.date_inicio);
-        tarefaSalva.data_fim = converterStringParaDataLocal(tarefaSalva.data_fim);
-        tarefaSalva.custo = parseFloat(tarefaSalva.custo);
+        $scope.formCtrl.close();
 
-        angular.extend(tarefa, tarefaSalva); 
-
-        tarefa.editando = false; 
-        tarefa.aberta = false;
-        tarefa.errosDoServidor = {}; 
-        $scope.formCtrl.emModoEdicao = false; 
       },
       (error) => {
         console.error("Ocorreu um erro ao salvar a tarefa:", error);

@@ -1,6 +1,6 @@
 <section ng-controller="TarefaController">
   <div class="contain-add-card">
-    <div ng-class="{'item-bloqueado': formCtrl.emModoEdicao}" ng-click="formCtrl.iniciarNovaTarefa()" class="button-add-card">
+    <div ng-class="{'item-bloqueado': formCtrl.emModoEdicao}" ng-click="formCtrl.open()" class="button-add-card">
       <div class="icon-plus">
         <i class="fa-solid fa-plus"></i>
       </div>
@@ -16,23 +16,37 @@
   <div class="contain-grid-cards"> 
     <div class="contain-tarefas" id="contain-tarefas">
       <div class="card-tarefa" ng-repeat="tarefa in listCtrl.tarefas">
-        
-        <div ng-if="!tarefa.editando">
-          <div class="contain-acordion-tarefa">
-            <div class="accordion-tarefa" ng-click="itemCtrl.abrirTarefaItem(tarefa)">
-              <div class="contain-angle">
-                <div class="angle"><i class="fa-solid fa-angle-right"></i></div>
-                <span>{{ tarefa.nome }}</span>
+        <div class="contain-acordion-tarefa">
+          <div class="accordion-tarefa" ng-click="itemCtrl.abrirTarefaItem(tarefa)">
+            <div class="contain-angle">
+              <div class="angle"><i class="fa-solid fa-angle-right"></i></div>
+              <span>{{ (tarefa.nome) ? tarefa.nome : 'Nova Tarefa'  }}</span>
+            </div>
+          </div>
+          <div class="contain-buttons-tarefa">
+            <div class="contain-edit-tarefa" ng-if="tarefa.id">
+              <div class="edit-link" ng-click="formCtrl.editarTarefa(tarefa)">
+                <i class="fa-solid fa-pencil"></i>
               </div>
             </div>
-            <div class="contain-buttons-tarefa">
-              <div class="contain-edit-tarefa">
-                <div class="edit-link" ng-click="formCtrl.editarTarefa(tarefa)">
-                  <i class="fa-solid fa-pencil"></i>
-                </div>
+            <div class="contain-delete-tarefa" ng-if="tarefa.id">
+              <div class="modal-delete" ng-click="tarefa.confirmandoExclusao = true">
+                <i class="fa-solid fa-trash-can"></i>
+              </div> 
+              <div class="contain-confirm-tarefa" ng-if="tarefa.confirmandoExclusao">
+                <div class="confirm-body">
+                  <div class="contain-confirm-titulo">Deseja excluir?</div>
+                    <div class="contain-confirm-btn">
+                      <button type="button" class="btn-confirmar" ng-click="formCtrl.excluirTarefa(tarefa)">Sim</button>
+                      <button type="button" class="btn-cancelar" ng-click="tarefa.confirmandoExclusao = false">Não</button>
+                    </div>
+                  </div>
               </div>
             </div>
           </div>
+        </div>
+        
+        <div ng-if="!tarefa.editando">
           <div class="body-painel-tarefa" ng-if="tarefa.aberta">
             <div class="painel-tarefa-comentario">
               <div class="contain-values-task">
@@ -94,16 +108,6 @@
         </div>
 
         <div ng-if="tarefa.editando">
-          <div class="contain-acordion" ng-click="itemCtrl.cancelarTarefaEdicao(tarefa)" >
-            <div class="accordion" id="accordion-nova-tarefa"> 
-              <div class="contain-angle">  
-                <div class="angle"> 
-                  <i class="fa-solid fa-angle-down" id="angle"> </i> 
-                </div>
-                <span>Nova Tarefa</span>
-              </div>
-            </div>
-          </div>
           <form class="painel-form" ng-submit="formCtrl.salvarTarefa(tarefa)">
             <div class="input-one">
               Nome da Tarefa
@@ -154,21 +158,6 @@
               <div class="span-save">
                 <i class="fa-solid fa-clipboard-list"></i>
                 <input type="submit" value="Salvar" class="button-save">
-              </div>
-              <div class="contain-delete-tarefa" ng-if="tarefa.id">
-                <div class="modal-delete"  ng-click="tarefa.confirmandoExclusao = true">
-                  <i class="fa-solid fa-trash-can"></i>
-                  <span>Exlcuir</span>
-                </div> 
-                <div class="contain-confirm-tarefa" ng-if="tarefa.confirmandoExclusao">
-                  <div class="confirm-body">
-                    <div class="contain-confirm-titulo">Deseja excluir?</div>
-                    <div class="contain-confirm-btn">
-                      <button type="button" class="btn-confirmar" ng-click="formCtrl.excluirTarefa(tarefa)">Sim</button>
-                      <button type="button" class="btn-cancelar" ng-click="tarefa.confirmandoExclusao = false">Não</button>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </form>

@@ -451,19 +451,13 @@ section{
     align-items: center;
     gap: 10px;
     background-color: rgb(224, 224, 224);
-    border-radius: 5px;
-    width: 120px;
-    font-weight:600;
-    cursor: pointer;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
 }
 
 
 .modal-delete i{
-    color: white;
-    background-color: red;
+    color: red;
     padding:10px;
-    border-radius: 5px 0 0 5px;
     display: flex;
     align-items: center;
     justify-content: center;
