@@ -416,6 +416,10 @@ section{
     justify-content: center;
 }
 
+.girando-seta{
+    transform: rotate(90deg);
+}
+
 .contain-angle i{
     font-size: 30px; 
     transition: all ease-in-out 0.20s;
@@ -462,6 +466,12 @@ section{
     align-items: center;
     justify-content: center;
     font-size: 25px;
+}
+
+.modal-delete:hover{
+    transform: scale(1.04);
+    cursor: pointer;
+
 }
 
 .contain-edit-tarefa{

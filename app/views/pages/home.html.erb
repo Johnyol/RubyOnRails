@@ -1,12 +1,12 @@
 <section ng-controller="TarefaController">
   <div class="contain-add-card">
-    <div ng-class="{'item-bloqueado': formCtrl.emModoEdicao}" ng-click="formCtrl.open()" class="button-add-card">
+    <div ng-class="{'item-bloqueado': formCtrl.ativo}" ng-click="formCtrl.open()" class="button-add-card">
       <div class="icon-plus">
         <i class="fa-solid fa-plus"></i>
       </div>
       <button>Cadastrar Tarefa</button>
     </div>
-    <div class="contain-search" ng-class="{'item-bloqueado': formCtrl.emModoEdicao}">
+    <div class="contain-search" ng-class="{'item-bloqueado': formCtrl.ativo}">
       <input class="form-control mr-sm-2" ng-model="termoDaBusca" type="search" placeholder="Buscar Tarefa" aria-label="Buscar">
       <div class="btn btn-outline-success icon-search" ng-click="listCtrl.buscar(termoDaBusca)">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -14,22 +14,24 @@
     </div>
   </div>
   <div class="contain-grid-cards"> 
-    <div class="contain-tarefas" id="contain-tarefas">
+    <div class="contain-tarefas">
       <div class="card-tarefa" ng-repeat="tarefa in listCtrl.tarefas">
         <div class="contain-acordion-tarefa">
           <div class="accordion-tarefa" ng-click="itemCtrl.abrirTarefaItem(tarefa)">
             <div class="contain-angle">
-              <div class="angle"><i class="fa-solid fa-angle-right"></i></div>
-              <span>{{ (tarefa.nome) ? tarefa.nome : 'Nova Tarefa'  }}</span>
+              <div class="angle">
+                <i class="fa-solid fa-angle-right" ng-class="{'girando-seta': tarefa.aberta}"></i>
+              </div>
+              <span>{{ (tarefa.id) ? tarefa.nome : 'Nova Tarefa' }}</span>
             </div>
           </div>
-          <div class="contain-buttons-tarefa">
-            <div class="contain-edit-tarefa" ng-if="tarefa.id">
-              <div class="edit-link" ng-click="formCtrl.editarTarefa(tarefa)">
+          <div class="contain-buttons-tarefa" ng-if="tarefa.id">
+            <div class="contain-edit-tarefa">
+              <div class="edit-link" ng-click="formCtrl.open(tarefa)">
                 <i class="fa-solid fa-pencil"></i>
               </div>
             </div>
-            <div class="contain-delete-tarefa" ng-if="tarefa.id">
+            <div class="contain-delete-tarefa" ng-class="{'item-bloqueado': formCtrl.ativo && !tarefa.editando}">
               <div class="modal-delete" ng-click="tarefa.confirmandoExclusao = true">
                 <i class="fa-solid fa-trash-can"></i>
               </div> 
@@ -40,129 +42,131 @@
                       <button type="button" class="btn-confirmar" ng-click="formCtrl.excluirTarefa(tarefa)">Sim</button>
                       <button type="button" class="btn-cancelar" ng-click="tarefa.confirmandoExclusao = false">Não</button>
                     </div>
-                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
         
-        <div ng-if="!tarefa.editando">
-          <div class="body-painel-tarefa" ng-if="tarefa.aberta">
-            <div class="painel-tarefa-comentario">
-              <div class="contain-values-task">
-                <div class="span-values-date">
-                  <span>Inicio</span>
-                  <div class="data-span">
-                    <p>{{tarefa.date_inicio | date:'dd/MM/yyyy'}}</p>
-                  </div>
-                </div>
-                <div class="span-values-date">
-                  <span>Conclusão</span>
-                  <div class="data-span">
-                    <p>{{tarefa.data_fim | date:'dd/MM/yyyy'}}</p>
-                  </div>
-                </div>
-              </div>
-              <div class="contain-values-custo">
-                <div class="span-values-custo">
-                  <span>Custo Estimado</span>
-                  <div class="icon">
-                    <i class="fa-solid fa-brazilian-real-sign"></i>
-                    <b>{{(tarefa.custo < 1) ? 'Sem custo' : (tarefa.custo | currency:'')}}</b>
-                  </div> 
-                </div>
-                <div class="span-values-custo">
-                  <span> Status da Tarefa </span> 
-                  <div class="status-tarefa">
-                    <p>{{tarefa.status}}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="contain-comentarios" id="painel-comentarios">
-              <div class="card-nav-comentario"> <i class="fa-solid fa-comments"></i> Comentários </div>
-              <div class="painel-contain-comentario">
-                <div class="card-comentario-value">
-                  <div class="body-card-comentario" ng-repeat="comentario in tarefa.comentarios">
-                    <div class="conteudo-card">{{comentario.conteudo}} </div>
-                    <div class="delete-comentario" ng-click="formComentCtrl.excluirComentario(tarefa, comentario)"><i class="fa-solid fa-trash"></i></div>
-                  </div>
-                </div>
-                <div class="contain-form-comentario">
-                  <form ng-submit="formComentCtrl.criarComentario(tarefa)">
-                    <textarea ng-model="tarefa.novoComentario.conteudo" placeholder="Adicione um comentário..."></textarea>
-                    <div class="text-danger" ng-if="tarefa.errosComentario['comentarios.conteudo']">
-                      {{ tarefa.errosComentario['comentarios.conteudo'][0] }}
+        <div class="contain-body-tarefa" ng-show="tarefa.aberta">
+          <div ng-if="!tarefa.editando">
+            <div class="body-painel-tarefa">
+              <div class="painel-tarefa-comentario">
+                <div class="contain-values-task">
+                  <div class="span-values-date">
+                    <span>Inicio</span>
+                    <div class="data-span">
+                      <p>{{tarefa.date_inicio | date:'dd/MM/yyyy'}}</p>
                     </div>
-                    <div class="enviar-form-comentario">
-                      <div class="botao-comentario">
-                        <i class="fa-solid fa-envelope"></i>
-                        <button type="submit"> Enviar comentario</button>
+                  </div>
+                  <div class="span-values-date">
+                    <span>Conclusão</span>
+                    <div class="data-span">
+                      <p>{{tarefa.data_fim | date:'dd/MM/yyyy'}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="contain-values-custo">
+                  <div class="span-values-custo">
+                    <span>Custo Estimado</span>
+                    <div class="icon">
+                      <i class="fa-solid fa-brazilian-real-sign"></i>
+                      <b>{{(tarefa.custo < 1) ? 'Sem custo' : (tarefa.custo | currency:'')}}</b>
+                    </div> 
+                  </div>
+                  <div class="span-values-custo">
+                    <span> Status da Tarefa </span> 
+                    <div class="status-tarefa">
+                      <p>{{tarefa.status}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="contain-comentarios" id="painel-comentarios">
+                <div class="card-nav-comentario"> <i class="fa-solid fa-comments"></i> Comentários </div>
+                <div class="painel-contain-comentario">
+                  <div class="card-comentario-value">
+                    <div class="body-card-comentario" ng-repeat="comentario in tarefa.comentarios">
+                      <div class="conteudo-card">{{comentario.conteudo}} </div>
+                      <div class="delete-comentario" ng-click="formComentCtrl.excluirComentario(tarefa, comentario)"><i class="fa-solid fa-trash"></i></div>
+                    </div>
+                  </div>
+                  <div class="contain-form-comentario">
+                    <form ng-submit="formComentCtrl.criarComentario(tarefa)">
+                      <textarea ng-model="tarefa.novoComentario.conteudo" placeholder="Adicione um comentário..."></textarea>
+                      <div class="text-danger" ng-if="tarefa.errosComentario['comentarios.conteudo']">
+                        {{ tarefa.errosComentario['comentarios.conteudo'][0] }}
                       </div>
-                    </div>
-                  </form>
+                      <div class="enviar-form-comentario">
+                        <div class="botao-comentario">
+                          <i class="fa-solid fa-envelope"></i>
+                          <button type="submit"> Enviar comentario</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div ng-if="tarefa.editando">
-          <form class="painel-form" ng-submit="formCtrl.salvarTarefa(tarefa)">
-            <div class="input-one">
-              Nome da Tarefa
-              <input type="text" ng-model="tarefa.nome" placeholder="....">
-              <div class="text-danger" ng-if="tarefa.errosDoServidor.nome">
-                {{ tarefa.errosDoServidor.nome[0] }}
-              </div>
-            </div>
-            <div class="input-two"> 
-              <div class="contain-itens">
-                <span>Início</span>
-                <div class="input-calendar"> 
-                  <input type="date" ng-model="tarefa.date_inicio">
-                </div>
-                <div class="text-danger" ng-if="tarefa.errosDoServidor.date_inicio">
-                  {{ tarefa.errosDoServidor.date_inicio[0] }}
+          <div ng-if="tarefa.editando">
+            <form class="painel-form" ng-submit="formCtrl.salvarTarefa(tarefa)">
+              <div class="input-one">
+                Nome da Tarefa
+                <input type="text" ng-model="formCtrl.params.nome" placeholder="....">
+                <div class="text-danger" ng-if="tarefa.errosDoServidor.nome">
+                  {{ tarefa.errosDoServidor.nome[0] }}
                 </div>
               </div>
-              <div class="contain-itens">
-                <span>Conclusão</span>
-                <div class="input-calendar"> 
-                  <input type="date" ng-model="tarefa.data_fim">
+              <div class="input-two"> 
+                <div class="contain-itens">
+                  <span>Início</span>
+                  <div class="input-calendar"> 
+                    <input type="date" ng-model="formCtrl.params.date_inicio">
+                  </div>
+                  <div class="text-danger" ng-if="tarefa.errosDoServidor.date_inicio">
+                    {{ tarefa.errosDoServidor.date_inicio[0] }}
+                  </div>
                 </div>
-                <div class="text-danger" ng-if="tarefa.errosDoServidor.data_fim">
-                  {{ tarefa.errosDoServidor.data_fim[0] }}
+                <div class="contain-itens">
+                  <span>Conclusão</span>
+                  <div class="input-calendar"> 
+                    <input type="date" ng-model="formCtrl.params.data_fim">
+                  </div>
+                  <div class="text-danger" ng-if="tarefa.errosDoServidor.data_fim">
+                    {{ tarefa.errosDoServidor.data_fim[0] }}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="input-three">
-              <div class="contain-select">
-                <span>Custo estimado</span>
-                <div class="icon-input">
-                  <i class="fa-solid fa-brazilian-real-sign"></i>
-                  <input type="number" ng-model="tarefa.custo">
-                </div> 
+              <div class="input-three">
+                <div class="contain-select">
+                  <span>Custo estimado</span>
+                  <div class="icon-input">
+                    <i class="fa-solid fa-brazilian-real-sign"></i>
+                    <input type="number" ng-model="formCtrl.params.custo">
+                  </div> 
+                </div>
+                <div class="contain-select">
+                  <span>Status da Tarefa</span>
+                  <select ng-model="formCtrl.params.status" ng-options="opcao.valor as opcao.nome for opcao in opcoesDeStatus">
+                  </select>
+                </div>
               </div>
-              <div class="contain-select">
-                <span>Status da Tarefa</span>
-                <select ng-model="tarefa.status" ng-options="opcao.valor as opcao.nome for opcao in opcoesDeStatus">
-                </select>
+              <div class="contain-buttons"> 
+                <button class="span-back" type="button" ng-click="formCtrl.close(tarefa); tarefa.confirmandoExclusao = false">
+                  <i class="fa-solid fa-rotate-left"></i>
+                  Voltar 
+                </button>
+                <div class="span-save">
+                  <i class="fa-solid fa-clipboard-list"></i>
+                  <input type="submit" value="Salvar" class="button-save">
+                </div>
               </div>
-            </div>
-            <div class="contain-buttons"> 
-              <button class="span-back" type="button" ng-click="itemCtrl.cancelarTarefaEdicao(tarefa)">
-                <i class="fa-solid fa-rotate-left"></i>
-                Voltar 
-              </button>
-              <div class="span-save">
-                <i class="fa-solid fa-clipboard-list"></i>
-                <input type="submit" value="Salvar" class="button-save">
-              </div>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
 
+        </div>
       </div>
     </div>
   </div>
