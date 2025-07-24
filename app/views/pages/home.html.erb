@@ -26,7 +26,7 @@
             </div>
           </div>
           <div class="contain-buttons-tarefa" ng-if="tarefa.id">
-            <div class="contain-edit-tarefa">
+            <div class="contain-edit-tarefa" ng-class="{'item-bloqueado': formCtrl.ativo && !tarefa.editando}">
               <div class="edit-link" ng-click="formCtrl.open(tarefa)">
                 <i class="fa-solid fa-pencil"></i>
               </div>
@@ -84,7 +84,7 @@
               </div>
               <div class="contain-comentarios" id="painel-comentarios">
                 <div class="card-nav-comentario"> <i class="fa-solid fa-comments"></i> Comentários </div>
-                <div class="painel-contain-comentario">
+                <div class="painel-contain-comentario" ng-class="{'item-bloqueado': formCtrl.ativo}">
                   <div class="card-comentario-value">
                     <div class="body-card-comentario" ng-repeat="comentario in tarefa.comentarios">
                       <div class="conteudo-card">{{comentario.conteudo}} </div>
@@ -94,7 +94,7 @@
                   <div class="contain-form-comentario">
                     <form ng-submit="formComentCtrl.criarComentario(tarefa)">
                       <textarea ng-model="tarefa.novoComentario.conteudo" placeholder="Adicione um comentário..."></textarea>
-                      <div class="text-danger" ng-if="tarefa.errosComentario['comentarios.conteudo']">
+                      <div class="text-danger"  ng-if="tarefa.errosComentario['comentarios.conteudo']">
                         {{ tarefa.errosComentario['comentarios.conteudo'][0] }}
                       </div>
                       <div class="enviar-form-comentario">

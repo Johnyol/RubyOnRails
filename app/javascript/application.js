@@ -60,7 +60,7 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
         if (tarefaEncontrada) {
           angular.extend(tarefaEncontrada, tarefa);
         } else {
-          $scope.listCtrl.tarefas.unshift(tarefa);
+          $scope.listCtrl.tarefas.push(tarefa);
         }
 
       });
@@ -69,14 +69,19 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
 
   $scope.itemCtrl = {
     abrirTarefaItem: (tarefa)=> {
-      if ($scope.formCtrl.ativo) {return;}
 
-      tarefa.aberta = !tarefa.aberta;
+      if($scope.formCtrl.ativo && tarefa.editando){
+        return;
+      }else if(!tarefa.editando){
+        tarefa.aberta = !tarefa.aberta;
+      }
+      
     },
   }
 
   $scope.formCtrl = {
     ativo: false,
+    errosDoServidor : [],
 
     open: (tarefa)=>{
       if ($scope.formCtrl.ativo) return;
@@ -99,7 +104,9 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
       }
     },
 
-    close: ()=>{
+    close: (tarefa)=>{
+      tarefa = tarefa || {};
+      
       if($scope.formCtrl.newRecord){
         const tarefa = $scope.listCtrl.tarefas.find(item => !item.id)
         const index = $scope.listCtrl.tarefas.indexOf(tarefa);
@@ -113,27 +120,37 @@ angular.module('meuApp', []).controller('TarefaController', function($scope, $ht
       $scope.formCtrl.ativo = false;
       $scope.formCtrl.newRecord = false;
       $scope.formCtrl.params = {};
+      $scope.formCtrl.errosDoServidor = [];
+      tarefa.errosDoServidor = [];
     },
 
     salvarTarefa: (tarefa)=> { 
 
+      const dadosParaSalvar = angular.copy($scope.formCtrl.params);
+
       if(tarefa.id){
-        tarefa = $scope.formCtrl.params;
+        dadosParaSalvar.id = tarefa.id;
       }
 
-      $http.post("/tarefas/save.json", { tarefa: tarefa })
+      $http.post("/tarefas/save.json", { tarefa: dadosParaSalvar })
       .then((response) => {
         console.log("Tarefa sendo processada");
-
         const tarefaSalva = response.data.tarefa
 
-        $scope.listCtrl.handle(tarefaSalva);
+        if($scope.formCtrl.newRecord){
+          const nova_tarefa = $scope.listCtrl.tarefas.find(item => !item.id);
+          angular.extend(nova_tarefa, tarefaSalva);
+          $scope.listCtrl.buscar();
+        }else{
+          $scope.listCtrl.handle(tarefaSalva);
+        }
         
         $scope.formCtrl.close();
 
       },
       (error) => {
         console.error("Ocorreu um erro ao salvar a tarefa:", error);
+        console.log(tarefa);
         tarefa.errosDoServidor = error.data.errors;
       });
     },
