@@ -67,11 +67,6 @@ section{
     padding: 20px;
 }
 
-.contain-grid-cards{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 /* ----------------- css do card de cadastro de tarefa --------------- */
 
 .contain-add-card{
@@ -135,6 +130,11 @@ section{
     border-radius:10px;
     border: none;
     width: 60px;
+}
+
+.icon-search:hover{
+    transform: scale(1.05);
+    cursor: pointer;
 }
 
 .accordion{
@@ -351,6 +351,11 @@ section{
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
 }
 
+.contain-buttons .span-save:hover{
+    transform: scale(1.04);
+    cursor: pointer;
+}
+
 .contain-buttons .span-save .button-save{
     border: none;
     background-color: #0b64c200;
@@ -361,6 +366,12 @@ section{
     text-decoration: none;
     color: rgb(63, 63, 63);
 }
+
+.contain-buttons .span-back:hover{
+    transform: scale(1.04);
+    cursor: pointer;
+}
+
 
 .contain-buttons .span-back i{
     padding: 10px;
@@ -632,7 +643,7 @@ section{
 
 .conteudo-card{
     width: 450px;
-    white-space: break-spaces;
+    word-break: break-word;
  }
 
 .body-card-comentario .delete-comentario {
@@ -736,6 +747,11 @@ section{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.botao-comentario:hover{
+    transform: scale(1.05);
+    cursor: pointer;
 }
 
 .botao-comentario button{
