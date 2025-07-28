@@ -1,172 +1,209 @@
 <section ng-controller="TarefaController">
-  <div class="contain-add-card">
-    <div ng-class="{'item-bloqueado': formCtrl.ativo}" ng-click="formCtrl.open()" class="button-add-card">
-      <div class="icon-plus">
-        <i class="fa-solid fa-plus"></i>
-      </div>
-      <button>Cadastrar Tarefa</button>
-    </div>
-    <div class="contain-search" ng-class="{'item-bloqueado': formCtrl.ativo}">
-      <input class="form-control mr-sm-2" ng-model="termoDaBusca" type="search" placeholder="Buscar Tarefa" aria-label="Buscar">
-      <div class="btn btn-outline-success icon-search" ng-click="listCtrl.buscar(termoDaBusca)">
-        <i class="fa-solid fa-magnifying-glass"></i>
+
+  <div class="toolbar p-2 border-bottom">
+    <div class="container-fluid">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex">
+          <div class="btn-group me-2" role="group">
+            <button type="button" class="btn btn-primary"><i class="fa-solid fa-plus"></i></button>
+            <button type="button" class="btn btn-light border">Nova Infração</button>
+          </div>
+          <div class="input-group" style="width: 350px;">
+            <input type="text" class="form-control" placeholder="Pesquise aqui">
+            <button class="btn btn-primary" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button class="btn btn-secondary" ng-click="abrirFiltro = true" type="button" title="Filtros">
+              <i class="fa-solid fa-filter"></i>
+            </button>
+            <button class="btn btn-secondary" title="Imprimir"><i class="fa-solid fa-print"></i></button>
+          </div>
+        </div>
+        <div>
+          <button class="btn btn-secondary" type="button" title="Mais opções">
+            <i class="fa-solid fa-ellipsis"></i>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="contain-tarefas">
-
-    <div class="card-tarefa" ng-repeat="tarefa in listCtrl.tarefas">
-      <div class="contain-acordion-tarefa">
-        <div class="accordion-tarefa" ng-click="itemCtrl.abrirTarefaItem(tarefa)">
-          <div class="contain-angle">
-            <div class="angle">
-              <i class="fa-solid fa-angle-right" ng-class="{'girando-seta': tarefa.aberta}"></i>
-            </div>
-            <span>{{ (tarefa.id) ? tarefa.nome : 'Nova Tarefa' }}</span>
-          </div>
+  <div class="container-fluid p-4 contain-filtro-tarefa" ng-if="abrirFiltro">
+    <div class="card shadow-sm p-4 body-filtro-tarefa">
+      <div> 
+        <div>
+          <input type="number">   
+          <input>   
+          <input>   
+          <select>
+            <option>teste</option>
+            <option>teste</option>
+            <option>teste</option>
+          </select> 
+          <input type="date">   
+          <input type="date">
         </div>
-        <div class="contain-buttons-tarefa" ng-if="tarefa.id">
-          <div class="contain-edit-tarefa" ng-class="{'item-bloqueado': formCtrl.ativo && !tarefa.editando}">
-            <div class="edit-link" ng-click="formCtrl.open(tarefa)">
-              <i class="fa-solid fa-pencil"></i>
-            </div>
+        <div>
+          <div>
+            <input type="text" class="form-control" placeholder="Pesquise aqui">
+            <button class="btn btn-primary" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+          </div>        
+          <select>
+            <option>teste</option>
+            <option>teste</option>
+            <option>teste</option>
+          </select> 
+          <select>
+            <option>teste</option>
+            <option>teste</option>
+            <option>teste</option>
+          </select> 
+        </div>
+      </div>
+      <hr>
+      <div>   
+        <button class="btn btn-primary" type="button"><i class="fa-solid fa-check"></i> Aplicar</button>
+        <button class="btn btn-danger" type="button"><i class="fa-solid fa-circle-xmark"></i> Limpar Busca</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="container-fluid p-4">
+
+    <div class="card shadow-sm"  ng-repeat="tarefa in listCtrl.tarefas">
+      <div class="contain-header">
+        <div class="body-header">
+          <div class="item-header">
+            <span style="color: #ffd700;">Advertência (30)</span>
           </div>
-          <div class="contain-delete-tarefa" ng-class="{'item-bloqueado': formCtrl.ativo && !tarefa.editando}">
-            <div class="modal-delete" ng-click="tarefa.confirmandoExclusao = true">
-              <i class="fa-solid fa-trash-can"></i>
-            </div> 
-            <div class="contain-confirm-tarefa" ng-if="tarefa.confirmandoExclusao">
-              <div class="confirm-body">
-                <div class="contain-confirm-titulo">Deseja excluir?</div>
-                  <div class="contain-confirm-btn">
-                    <button type="button" class="btn-confirmar" ng-click="formCtrl.excluirTarefa(tarefa)">Sim</button>
-                    <button type="button" class="btn-cancelar" ng-click="tarefa.confirmandoExclusao = false">Não</button>
-                  </div>
-              </div>
-            </div>
+          <div class="item-header">
+            <span><small style="color: red;">Multa (51)</small> <br> R$ 10.072,52</span>
+          </div>
+          <div class="item-header">
+            <span><small style="color: #0047ab;">Total (51) </small><br>R$ 10.072,52</span>
           </div>
         </div>
       </div>
-      <div class="contain-body-tarefa" ng-show="tarefa.aberta">
-        <div ng-if="!tarefa.editando">
-          <div class="body-painel-tarefa">
-            <div class="painel-tarefa-comentario">
-              <div class="contain-values-task">
-                <div class="span-values-date">
-                  <span>Inicio</span>
-                  <div class="data-span">
-                    <p>{{tarefa.date_inicio | date:'dd/MM/yyyy'}}</p>
+
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th class="ps-3" scope="col"> </th>
+                <th scope="col" >Código / Status</th>
+                <th scope="col">Título / Tipo</th>
+                <th scope="col">Unidade / Infrator</th>
+                <th scope="col">Data de cobrança / Valor</th>
+                <th scope="col">Ocorrido em</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-click="abrirCard = true">
+                <td class="ps-3"><input type="checkbox"></td>
+                <td>
+                  #107 <br>
+                  <span class="badge text-bg-warning">Advertência</span>
+                </td>
+                <td><strong>{{tarefa.nome}}</strong></td>
+                <td>-</td>
+                <td>-</td>
+                <td>20/06/2025 às 15:38</td>
+                <td class="text-end">
+                  <div class="dropdown">
+                    <button class="btn btn-sm btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item" href="#">Editar</a></li>
+                      <li><a class="dropdown-item" href="#">Cancelar</a></li>
+                      <li><a class="dropdown-item" href="#">Imprimir</a></li>
+                      <li><a class="dropdown-item" href="#">Enviar E-mail</a></li>
+                      <li><a class="dropdown-item" href="#">Excluir</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="card shadow-sm" ng-if="abrirCard">
+            <div class="card-body p-4">
+
+              <h5 class="mb-3">Dados Gerais</h5>
+              <div class="row g-3">
+                <div class="col-md-12">
+                  <label for="titulo" class="form-label">Título</label>
+                  <input type="text" class="form-control" id="titulo" value="asdasdasd">
+                </div>
+
+                <div class="col-md-3">
+                  <label for="ocorrido-em" class="form-label">Ocorrido em</label>
+                  <input type="date" class="form-control" id="ocorrido-em" value="2025-06-20">
+                </div>
+
+                <div class="col-md-2">
+                  <label for="horario" class="form-label">Horário</label>
+                  <input type="time" class="form-control" id="horario" value="15:38">
+                </div>
+
+                <div class="col-md-3">
+                  <label for="tipo" class="form-label">Tipo</label>
+                  <input type="text" class="form-control" id="tipo" placeholder="Digite um tipo">
+                </div>
+
+                <div class="col-md-4">
+                  <label for="nome-infrator" class="form-label">Nome do Infrator</label>
+                  <input type="text" class="form-control" id="nome-infrator" placeholder="Ex: João Batista">
+                </div>
+                
+                <div class="col-md-8">
+                  <label for="unidade" class="form-label">Unidade</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="unidade" placeholder="Digite uma unidade">
+                    <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i></button>
                   </div>
                 </div>
-                <div class="span-values-date">
-                  <span>Conclusão</span>
-                  <div class="data-span">
-                    <p>{{tarefa.data_fim | date:'dd/MM/yyyy'}}</p>
+
+                <div class="col-md-4">
+                  <label for="valor-multa" class="form-label">Valor da Multa</label>
+                  <div class="input-group">
+                    <span class="input-group-text">R$</span>
+                    <input type="text" class="form-control" id="valor-multa" value="0,00">
                   </div>
                 </div>
               </div>
-              <div class="contain-values-custo">
-                <div class="span-values-custo">
-                  <span>Custo Estimado</span>
-                  <div class="icon">
-                    <i class="fa-solid fa-brazilian-real-sign"></i>
-                    <b>{{(tarefa.custo < 1) ? 'Sem custo' : (tarefa.custo | currency:'')}}</b>
-                  </div> 
-                </div>
-                <div class="span-values-custo">
-                  <span> Status da Tarefa </span> 
-                  <div class="status-tarefa">
-                    <p>{{tarefa.status}}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="contain-comentarios" id="painel-comentarios">
-              <div class="card-nav-comentario"> <i class="fa-solid fa-comments"></i> Comentários </div>
-              <div class="painel-contain-comentario" ng-class="{'item-bloqueado': formCtrl.ativo}">
-                <div class="card-comentario-value">
-                  <div class="body-card-comentario" ng-repeat="comentario in tarefa.comentarios">
-                    <div class="conteudo-card">{{comentario.conteudo}} </div>
-                    <div class="delete-comentario" ng-click="formComentCtrl.excluirComentario(tarefa, comentario)"><i class="fa-solid fa-trash"></i></div>
-                  </div>
-                </div>
-                <div class="contain-form-comentario">
-                  <form ng-submit="formComentCtrl.criarComentario(tarefa)">
-                    <textarea ng-model="tarefa.novoComentario.conteudo" placeholder="Adicione um comentário..."></textarea>
-                    <div class="text-danger"  ng-if="tarefa.errosComentario['comentarios.conteudo']">
-                      {{ tarefa.errosComentario['comentarios.conteudo'][0] }}
-                    </div>
-                    <div class="enviar-form-comentario">
-                      <div class="botao-comentario">
-                        <i class="fa-solid fa-envelope"></i>
-                        <button type="submit"> Enviar comentario</button>
-                      </div>
-                    </div>
-                  </form>
+
+              <h5 class="mt-5 mb-3">Anexos</h5>
+              <div class="d-flex gap-2">
+                <button class="btn btn-secondary"><i class="bi bi-camera-fill me-1"></i> Tirar Foto</button>
+                <button class="btn btn-secondary"><i class="bi bi-paperclip me-1"></i> Anexar</button>
+                  <div class="dropdown">
+                  <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Selecione o Tipo
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Documento</a></li>
+                    <li><a class="dropdown-item" href="#">Foto do Local</a></li>
+                    <li><a class="dropdown-item" href="#">Outro</a></li>
+                  </ul>
                 </div>
               </div>
+              <div class="text-center text-muted border rounded p-4 my-3">
+                Nenhum anexo disponível!
+              </div>
+              <h5 class="mt-5 mb-3">Detalhes</h5>
+              <div>
+                <textarea class="form-control" id="editor-detalhes" rows="10">
+                </textarea>
+              </div>
+            </div> <div class="card-footer bg-light text-end">
+              <button type="button" class="btn btn-danger px-4">Cancelar</button>
+              <button type="submit" class="btn btn-primary px-4 ms-2">Salvar</button>
             </div>
           </div>
-        </div>
-        
-        <div ng-if="tarefa.editando">
-          <form class="painel-form" ng-submit="formCtrl.salvarTarefa(tarefa)">
-            <div class="input-one">
-              Nome da Tarefa
-              <input type="text" ng-model="formCtrl.params.nome" placeholder="....">
-              <div class="text-danger" ng-if="tarefa.errosDoServidor.nome">
-                {{ tarefa.errosDoServidor.nome[0] }}
-              </div>
-            </div>
-            <div class="input-two"> 
-              <div class="contain-itens">
-                <span>Início</span>
-                <div class="input-calendar"> 
-                  <input type="date" ng-model="formCtrl.params.date_inicio">
-                </div>
-                <div class="text-danger" ng-if="tarefa.errosDoServidor.date_inicio">
-                  {{ tarefa.errosDoServidor.date_inicio[0] }}
-                </div>
-              </div>
-              <div class="contain-itens">
-                <span>Conclusão</span>
-                <div class="input-calendar"> 
-                  <input type="date" ng-model="formCtrl.params.data_fim">
-                </div>
-                <div class="text-danger" ng-if="tarefa.errosDoServidor.data_fim">
-                  {{ tarefa.errosDoServidor.data_fim[0] }}
-                </div>
-              </div>
-            </div>
-            <div class="input-three">
-              <div class="contain-select">
-                <span>Custo estimado</span>
-                <div class="icon-input">
-                  <i class="fa-solid fa-brazilian-real-sign"></i>
-                  <input type="number" ng-model="formCtrl.params.custo">
-                </div> 
-              </div>
-              <div class="contain-select">
-                <span>Status da Tarefa</span>
-                <select ng-model="formCtrl.params.status" ng-options="opcao.valor as opcao.nome for opcao in opcoesDeStatus">
-                </select>
-              </div>
-            </div>
-            <div class="contain-buttons"> 
-              <button class="span-back" type="button" ng-click="formCtrl.close(tarefa); tarefa.confirmandoExclusao = false">
-                <i class="fa-solid fa-rotate-left"></i>
-                Voltar 
-              </button>
-              <div class="span-save">
-                <i class="fa-solid fa-clipboard-list"></i>
-                <input type="submit" value="Salvar" class="button-save">
-              </div>
-            </div>
-          </form>
         </div>
       </div>
     </div>
-
   </div>
+
 </section>
