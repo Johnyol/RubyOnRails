@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
   def home
-      @tarefas = Tarefa.all
+      @multas = Multum.all
   end
 end
