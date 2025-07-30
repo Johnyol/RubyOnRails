@@ -15,7 +15,14 @@ angular.module('meuApp', []).controller('MultaController', function($scope, $htt
       $http.get("/multas.json")
         .then(
           (response) => {
-            console.log(response.data.lista);
+           $scope.listCtrl.multas = response.data.lista;
+           console.log($scope.listCtrl.multas)
+
+          $scope.listCtrl.multas.forEach((multa) => { 
+            multa.aberta = false;
+
+          });
+
           },
           (error) => {
             console.error("Ocorreu um erro ao buscar as multas:", error);
@@ -43,163 +50,108 @@ angular.module('meuApp', []).controller('MultaController', function($scope, $htt
     // }
   };
 
-  // $scope.itemCtrl = {
-  //   abrirTarefaItem: (tarefa)=> {
+  $scope.itemCtrl = {
+    abriMultaItem: (multa)=> {
+      console.log(multa.aberta, "Clicado")
+      multa.aberta = !multa.aberta;
+      console.log(multa.aberta, "Clicado")
+    },
+  }
 
-  //     if($scope.formCtrl.ativo && tarefa.editando){
-  //       return;
-  //     }else if(!tarefa.editando){
-  //       tarefa.aberta = !tarefa.aberta;
-  //     }
+  $scope.formCtrl = {
+    ativo: false,
+    errosDoServidor : [],
+
+    open: (multa)=>{
+      if ($scope.formCtrl.ativo) return;
+
+      $scope.formCtrl.ativo = true;
+
+      multa = multa || {};
+      multa.aberta   = true
+      multa.editando = true
+
+      $scope.formCtrl.params = angular.copy(multa);
+
+      $scope.formCtrl.newRecord = !$scope.formCtrl.params.id;
+
+      if ($scope.formCtrl.newRecord){
+        $scope.formCtrl.params.data = new Date(),
+        $scope.listCtrl.multas.unshift($scope.formCtrl.params);
+      }
+    },
+
+    close: (multa)=>{
+      multa = multa || {};
       
-  //   },
-  // }
+      if($scope.formCtrl.newRecord){
+        const multa = $scope.listCtrl.multas.find(item => !item.id)
+        const index = $scope.listCtrl.multas.indexOf(multa);
+        if (index > -1) {
+          $scope.listCtrl.multas.splice(index, 1);
+        }
+      }else{
+        const multa = $scope.listCtrl.multas.find(item => item.id === $scope.formCtrl.params.id)
+        multa.editando = false;
+      }
+      $scope.formCtrl.ativo = false;
+      $scope.formCtrl.newRecord = false;
+      $scope.formCtrl.params = {};
+      $scope.formCtrl.errosDoServidor = [];
+      multa.errosDoServidor = [];
+    },
 
-  // $scope.formCtrl = {
-  //   ativo: false,
-  //   errosDoServidor : [],
+    // salvarTarefa: (tarefa)=> { 
 
-  //   open: (tarefa)=>{
-  //     if ($scope.formCtrl.ativo) return;
+    //   const dadosParaSalvar = angular.copy($scope.formCtrl.params);
 
-  //     $scope.formCtrl.ativo = true;
+    //   if(tarefa.id){
+    //     dadosParaSalvar.id = tarefa.id;
+    //   }
 
-  //     tarefa = tarefa || {};
-  //     tarefa.aberta   = true
-  //     tarefa.editando = true
+    //   $http.post("/tarefas/save.json", { tarefa: dadosParaSalvar })
+    //   .then((response) => {
+    //     console.log("Tarefa sendo processada");
+    //     const tarefaSalva = response.data.tarefa
 
-  //     $scope.formCtrl.params = angular.copy(tarefa);
-
-  //     $scope.formCtrl.newRecord = !$scope.formCtrl.params.id;
-
-  //     if ($scope.formCtrl.newRecord){
-  //       $scope.formCtrl.params.date_inicio = new Date(),
-  //       $scope.formCtrl.params.status = 'Pendente'
-
-  //       $scope.listCtrl.tarefas.unshift($scope.formCtrl.params);
-  //     }
-  //   },
-
-  //   close: (tarefa)=>{
-  //     tarefa = tarefa || {};
-      
-  //     if($scope.formCtrl.newRecord){
-  //       const tarefa = $scope.listCtrl.tarefas.find(item => !item.id)
-  //       const index = $scope.listCtrl.tarefas.indexOf(tarefa);
-  //       if (index > -1) {
-  //         $scope.listCtrl.tarefas.splice(index, 1);
-  //       }
-  //     }else{
-  //       const tarefa = $scope.listCtrl.tarefas.find(item => item.id === $scope.formCtrl.params.id)
-  //       tarefa.editando = false;
-  //     }
-  //     $scope.formCtrl.ativo = false;
-  //     $scope.formCtrl.newRecord = false;
-  //     $scope.formCtrl.params = {};
-  //     $scope.formCtrl.errosDoServidor = [];
-  //     tarefa.errosDoServidor = [];
-  //   },
-
-  //   salvarTarefa: (tarefa)=> { 
-
-  //     const dadosParaSalvar = angular.copy($scope.formCtrl.params);
-
-  //     if(tarefa.id){
-  //       dadosParaSalvar.id = tarefa.id;
-  //     }
-
-  //     $http.post("/tarefas/save.json", { tarefa: dadosParaSalvar })
-  //     .then((response) => {
-  //       console.log("Tarefa sendo processada");
-  //       const tarefaSalva = response.data.tarefa
-
-  //       if($scope.formCtrl.newRecord){
-  //         const nova_tarefa = $scope.listCtrl.tarefas.find(item => !item.id);
-  //         angular.extend(nova_tarefa, tarefaSalva);
-  //         $scope.listCtrl.buscar();
-  //       }else{
-  //         $scope.listCtrl.handle(tarefaSalva);
-  //       }
+    //     if($scope.formCtrl.newRecord){
+    //       const nova_tarefa = $scope.listCtrl.tarefas.find(item => !item.id);
+    //       angular.extend(nova_tarefa, tarefaSalva);
+    //       $scope.listCtrl.buscar();
+    //     }else{
+    //       $scope.listCtrl.handle(tarefaSalva);
+    //     }
         
-  //       $scope.formCtrl.close();
+    //     $scope.formCtrl.close();
 
-  //     },
-  //     (error) => {
-  //       console.error("Ocorreu um erro ao salvar a tarefa:", error);
-  //       console.log(tarefa);
-  //       tarefa.errosDoServidor = error.data.errors;
-  //     });
-  //   },
+    //   },
+    //   (error) => {
+    //     console.error("Ocorreu um erro ao salvar a tarefa:", error);
+    //     console.log(tarefa);
+    //     tarefa.errosDoServidor = error.data.errors;
+    //   });
+    // },
 
-  //   excluirTarefa: (tarefa)=>{
-  //     $http.delete("/tarefas/" + tarefa.id + ".json")
-  //     .then(
-  //       (response) => {
-  //         console.log("Tarefa excluída com sucesso");
-  //         const index = $scope.listCtrl.tarefas.indexOf(tarefa);
-  //         if (index > -1) {
-  //           $scope.listCtrl.tarefas.splice(index, 1);
-  //         }
+    // excluirTarefa: (tarefa)=>{
+    //   $http.delete("/tarefas/" + tarefa.id + ".json")
+    //   .then(
+    //     (response) => {
+    //       console.log("Tarefa excluída com sucesso");
+    //       const index = $scope.listCtrl.tarefas.indexOf(tarefa);
+    //       if (index > -1) {
+    //         $scope.listCtrl.tarefas.splice(index, 1);
+    //       }
           
-  //         tarefa.editando = false
-  //         $scope.formCtrl.ativo = false
-  //       },
-  //       (error) => {
-  //         console.error("Ocorreu um erro ao excluir a tarefa:", error);
-  //         alert("Não foi possível excluir a tarefa. Tente novamente.");
-  //       }
-  //     );
-  //   }
-  // }
-
-  // $scope.formComentCtrl = {
-
-  //   errosComentario: {},
-
-  //   criarComentario: (tarefa) => {
-  //     if (!tarefa.novoComentario) {
-  //       tarefa.novoComentario = { conteudo: '' };
-  //     }
-  //     tarefa.errosComentario = {};
-   
-  //     const comentarioTarefa = {
-  //       tarefa:{
-  //         id: tarefa.id,
-  //         comentarios_attributes: [{ conteudo: tarefa.novoComentario.conteudo}]
-  //       }
-  //     };
-  //     $http.post(`/tarefas/save.json`, comentarioTarefa)
-  //       .then((response) => {
-  //         console.log("Comentário criado com sucesso");
-  //         tarefa.comentarios = response.data.tarefa.comentarios;
-  //         tarefa.novoComentario.conteudo = '';
-  //       }, (error) => {
-  //         console.error("Erro ao criar comentário:", error);
-  //         tarefa.errosComentario = error.data.errors;
-  //       });
-  //   },
-
-  //   excluirComentario: (tarefa, comentario) =>{
-
-  //     const comentarioTarefa = {
-  //       tarefa:{ 
-  //         id: tarefa.id, 
-  //         comentarios_attributes: [{id: comentario.id, _destroy: true}]
-  //       }
-  //     };
-
-  //     $http.post(`/tarefas/save.json`, comentarioTarefa)
-  //     .then((response) => {
-  //       console.log("Comentário excluído com sucesso");
-  //       const index = tarefa.comentarios.indexOf(comentario);
-  //       if (index > -1) {
-  //         tarefa.comentarios.splice(index, 1);
-  //       }
-  //     }, (error) => {
-  //       console.error("Erro ao excluir o comentário:", error);
-  //     });
-  //   }
-  // }
+    //       tarefa.editando = false
+    //       $scope.formCtrl.ativo = false
+    //     },
+    //     (error) => {
+    //       console.error("Ocorreu um erro ao excluir a tarefa:", error);
+    //       alert("Não foi possível excluir a tarefa. Tente novamente.");
+    //     }
+    //   );
+    // }
+  }
 
   init();
 });
